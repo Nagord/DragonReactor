@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HashFix.cs" />
     <Compile Include="IntrepidTestPatch.cs" />
     <Compile Include="PLReactorPatch.cs" />
     <Compile Include="Plugin.cs" />
