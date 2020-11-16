@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
-using UnityEngine;
 using CodeStage.AntiCheat.ObscuredTypes;
 
 namespace DragonReactor
 {
-    class ReactorConstructor
+    class ReactorFactory
 	{
 		public static PLReactor CreateReactor(int Subtype, int level, PLReactor InReactor = null)
 		{
@@ -13,10 +12,7 @@ namespace DragonReactor
             {
 				InReactor = new PLReactor(EReactorType.E_REAC_ID_MAX, level);
             }
-				InReactor.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (Texture2D)Resources.Load("Icons/28_Reactor"));
-				InReactor.Level = level;
-				InReactor.SubType = Subtype;
-				InReactor.HeatOutput = 1f;
+			InReactor.SubType = Subtype;
 			switch (Subtype)
 			{
 				default:

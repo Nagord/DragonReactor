@@ -7,7 +7,7 @@ namespace DragonReactor
     {
         static void Postfix(PLIntrepidInfo __instance)
         {
-            __instance.MyStats.AddShipComponent(ReactorConstructor.CreateReactor(15, 0), -1, ESlotType.E_COMP_NONE);
+            __instance.MyStats.AddShipComponent(ReactorFactory.CreateReactor(15, 0), -1, ESlotType.E_COMP_NONE);
         }
     }
 }

@@ -8,12 +8,7 @@ namespace DragonReactor
     {
         static void Postfix(PLReactor __instance, EReactorType inType, int inLevel)
         {
-            //if (inType == EReactorType.E_REAC_ID_MAX)
-            //{
-            //    return true;
-            //}
-            ReactorConstructor.CreateReactor((int)inType, inLevel, __instance);
-            //return false;
+            ReactorFactory.CreateReactor((int)inType, inLevel, __instance);
         }
     }
 }
