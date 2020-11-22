@@ -61,12 +61,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DragonReactor.cs" />
     <Compile Include="HashFix.cs" />
     <Compile Include="IntrepidTestPatch.cs" />
-    <Compile Include="PLReactorPatch.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReactorFactory.cs" />
+    <Compile Include="ReactorPlugin.cs" />
+    <Compile Include="ReactorPluginManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
