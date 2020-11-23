@@ -1,6 +1,7 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
+using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -9,17 +10,9 @@ namespace DragonReactor
 {
     class ReactorPluginManager
     {
-        private static int VanillaReactorMaxType = 14;
+        private int VanillaReactorMaxType = 0;
         private static ReactorPluginManager m_instance = null;
         private static List<ReactorPlugin> ReactorTypes = new List<ReactorPlugin>();
-        [HarmonyPatch(typeof(PLServer), "Awake")]
-        static class DRInstantiate
-        {
-            static void Postfix(PLServer __instance)
-            {
-                __instance.gameObject.AddComponent(typeof(ReactorPluginManager));
-            }
-        }
         public static ReactorPluginManager Instance
         {
             get
@@ -35,26 +28,52 @@ namespace DragonReactor
         ReactorPluginManager()
         {
             VanillaReactorMaxType = Enum.GetValues(typeof(EReactorType)).Length;
+            Logger.Info($"MaxTypeint = {VanillaReactorMaxType}");
             foreach (PulsarPlugin plugin in PluginManager.Instance.GetAllPlugins())
             {
                 Assembly asm = plugin.GetType().Assembly;
                 Type ReactorPlugin = typeof(ReactorPlugin);
                 foreach(Type t in asm.GetTypes())
                 {
-                    if(ReactorPlugin.IsAssignableFrom(t) && !t.IsInterface)
+                    if(ReactorPlugin.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                     {
+                        Logger.Info("Loading reactor from assembly");
                         ReactorPlugin ReactorPluginHandler = (ReactorPlugin)Activator.CreateInstance(t);
-                        ReactorTypes.Add(ReactorPluginHandler);
+                        if (GetReactorIDFromName(ReactorPluginHandler.Name) == -1)
+                        {
+                            ReactorTypes.Add(ReactorPluginHandler);
+                            Logger.Info($"Added reactor: '{ReactorPluginHandler.Name}'");
+                        }
+                        else
+                        {
+                            Logger.Info($"Could not add reactor from {asm.FullName} with the duplicate name of '{ReactorPluginHandler.Name}'");
+                        }
                     }
                 }
             }
+        }
+        /// <summary>
+        /// Finds reactor type equivilent to given name and returns ID in list. Returns -1 if couldn't find reactor.
+        /// </summary>
+        /// <param name="ReactorName"></param>
+        /// <returns></returns>
+        public static int GetReactorIDFromName(string ReactorName)
+        {
+            for(int i = 0; i < ReactorTypes.Count; i++)
+            {
+                if(ReactorTypes[i].Name == ReactorName)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
         public static PLReactor CreateReactor(int Subtype, int level, PLReactor InReactor = null)
         {
 
             if (InReactor == null)
             {
-                if ((EReactorType)Subtype > EReactorType.E_SYLVASSI_REACTOR)
+                if (Subtype >= Instance.VanillaReactorMaxType)
                 {
                     InReactor = new PLReactor(EReactorType.E_REAC_ID_MAX, level);
                 }
@@ -63,21 +82,22 @@ namespace DragonReactor
                     InReactor = new PLReactor((EReactorType)Subtype, level);
                 }
             }
-            if (InReactor.SubType == 7)
+            if (InReactor.SubType == 7 && Subtype - Instance.VanillaReactorMaxType < ReactorTypes.Count)
             {
+                Logger.Info("Creating reactor from list info");
+                ReactorPlugin ReactorType = ReactorTypes[Subtype - Instance.VanillaReactorMaxType];
                 InReactor.SubType = Subtype;
-                ReactorPlugin PluginReactor = ReactorTypes[Subtype - VanillaReactorMaxType];
-                InReactor.Name = PluginReactor.Name;
-                InReactor.Desc = PluginReactor.Description;
-                InReactor.EnergyOutputMax = PluginReactor.EnergyOutputMax;
-                InReactor.EnergySignatureAmt = PluginReactor.EnergySignatureAmount;
-                InReactor.TempMax = PluginReactor.MaxTemp;
-                InReactor.EmergencyCooldownTime = PluginReactor.EmergencyCooldownTime;
-                InReactor.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredInt)PluginReactor.MarketPrice);
-                InReactor.CargoVisualPrefabID = PluginReactor.CargoVisualID;
-                InReactor.CanBeDroppedOnShipDeath = PluginReactor.CanBeDroppedOnShipDeath;
-                InReactor.Experimental = PluginReactor.Experimental;
-                InReactor.Contraband = PluginReactor.Contraband;
+                InReactor.Name = ReactorType.Name;
+                InReactor.Desc = ReactorType.Description;
+                InReactor.EnergyOutputMax = ReactorType.EnergyOutputMax;
+                InReactor.EnergySignatureAmt = ReactorType.EnergySignatureAmount;
+                InReactor.TempMax = ReactorType.MaxTemp;
+                InReactor.EmergencyCooldownTime = ReactorType.EmergencyCooldownTime;
+                InReactor.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredInt)ReactorType.MarketPrice);
+                InReactor.CargoVisualPrefabID = ReactorType.CargoVisualID;
+                InReactor.CanBeDroppedOnShipDeath = ReactorType.CanBeDroppedOnShipDeath;
+                InReactor.Experimental = ReactorType.Experimental;
+                InReactor.Contraband = ReactorType.Contraband;
                 InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
             }
             return InReactor;

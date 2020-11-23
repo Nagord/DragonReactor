@@ -4,14 +4,6 @@ using PulsarPluginLoader.Utilities;
 
 namespace DragonReactor
 {
-    /*[HarmonyPatch(typeof(PLIntrepidInfo), "SetupShipStats")]
-    class IntrepidTestPatch
-    {
-        static void Postfix(PLIntrepidInfo __instance)
-        {
-            __instance.MyStats.AddShipComponent(PluginReactor.CreateReactor(15, 0), -1, ESlotType.E_COMP_NONE);
-        }
-    }*/
     class commands : IChatCommand
     {
         public string[] CommandAliases()
@@ -34,6 +26,7 @@ namespace DragonReactor
                     break;
                 case "addtoship":
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(ReactorPluginManager.CreateReactor(15, 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(ReactorPluginManager.CreateReactor(14, 0), -1, ESlotType.E_COMP_NONE);
                     break;
             }
 

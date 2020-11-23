@@ -2,6 +2,10 @@
 {
     public abstract class ReactorPlugin
     {
+        public ReactorPlugin()
+        {
+
+        }
         public virtual string Name
         {
             get { return ""; }
