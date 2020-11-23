@@ -28,7 +28,7 @@ namespace DragonReactor
         ReactorPluginManager()
         {
             VanillaReactorMaxType = Enum.GetValues(typeof(EReactorType)).Length;
-            Logger.Info($"MaxTypeint = {VanillaReactorMaxType}");
+            Logger.Info($"MaxTypeint = {VanillaReactorMaxType - 1}");
             foreach (PulsarPlugin plugin in PluginManager.Instance.GetAllPlugins())
             {
                 Assembly asm = plugin.GetType().Assembly;
@@ -46,24 +46,24 @@ namespace DragonReactor
                         }
                         else
                         {
-                            Logger.Info($"Could not add reactor from {asm.FullName} with the duplicate name of '{ReactorPluginHandler.Name}'");
+                            Logger.Info($"Could not add reactor from {plugin.Name} with the duplicate name of '{ReactorPluginHandler.Name}'");
                         }
                     }
                 }
             }
         }
         /// <summary>
-        /// Finds reactor type equivilent to given name and returns ID in list. Returns -1 if couldn't find reactor.
+        /// Finds reactor type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find reactor.
         /// </summary>
         /// <param name="ReactorName"></param>
         /// <returns></returns>
-        public static int GetReactorIDFromName(string ReactorName)
+        public int GetReactorIDFromName(string ReactorName)
         {
             for(int i = 0; i < ReactorTypes.Count; i++)
             {
                 if(ReactorTypes[i].Name == ReactorName)
                 {
-                    return i;
+                    return i + VanillaReactorMaxType;
                 }
             }
             return -1;
