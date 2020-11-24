@@ -17,14 +17,14 @@ namespace DragonReactor
         {
             get
             {
-                if(m_instance == null)
+                if (m_instance == null)
                 {
                     m_instance = new ReactorPluginManager();
                 }
                 return m_instance;
             }
         }
-        
+
         ReactorPluginManager()
         {
             VanillaReactorMaxType = Enum.GetValues(typeof(EReactorType)).Length;
@@ -33,9 +33,9 @@ namespace DragonReactor
             {
                 Assembly asm = plugin.GetType().Assembly;
                 Type ReactorPlugin = typeof(ReactorPlugin);
-                foreach(Type t in asm.GetTypes())
+                foreach (Type t in asm.GetTypes())
                 {
-                    if(ReactorPlugin.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                    if (ReactorPlugin.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                     {
                         Logger.Info("Loading reactor from assembly");
                         ReactorPlugin ReactorPluginHandler = (ReactorPlugin)Activator.CreateInstance(t);
@@ -59,28 +59,25 @@ namespace DragonReactor
         /// <returns></returns>
         public int GetReactorIDFromName(string ReactorName)
         {
-            for(int i = 0; i < ReactorTypes.Count; i++)
+            for (int i = 0; i < ReactorTypes.Count; i++)
             {
-                if(ReactorTypes[i].Name == ReactorName)
+                if (ReactorTypes[i].Name == ReactorName)
                 {
                     return i + VanillaReactorMaxType;
                 }
             }
             return -1;
         }
-        public static PLReactor CreateReactor(int Subtype, int level, PLReactor InReactor = null)
+        public static PLReactor CreateReactor(int Subtype, int level)
         {
-
-            if (InReactor == null)
+            PLReactor InReactor;
+            if (Subtype >= Instance.VanillaReactorMaxType)
             {
-                if (Subtype >= Instance.VanillaReactorMaxType)
-                {
-                    InReactor = new PLReactor(EReactorType.E_REAC_ID_MAX, level);
-                }
-                else
-                {
-                    InReactor = new PLReactor((EReactorType)Subtype, level);
-                }
+                InReactor = new PLReactor(EReactorType.E_REAC_ID_MAX, level);
+            }
+            else
+            {
+                InReactor = new PLReactor((EReactorType)Subtype, level);
             }
             if (InReactor.SubType == 7 && Subtype - Instance.VanillaReactorMaxType < ReactorTypes.Count)
             {
@@ -101,6 +98,16 @@ namespace DragonReactor
                 InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
             }
             return InReactor;
+        }
+    }
+    //Converts hashes to reactors.
+    [HarmonyPatch(typeof(PLReactor), "CreateReactorFromHash")]
+    class HashFix
+    {
+        static bool Prefix(int inSubType, int inLevel, ref PLShipComponent __result)
+        {
+            __result = ReactorPluginManager.CreateReactor(inSubType, inLevel);
+            return false;
         }
     }
 }

@@ -4,7 +4,6 @@
     {
         public ReactorPlugin()
         {
-
         }
         public virtual string Name
         {

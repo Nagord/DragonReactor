@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using PulsarPluginLoader.Chat.Commands;
+﻿using PulsarPluginLoader.Chat.Commands;
 using PulsarPluginLoader.Utilities;
 
 namespace DragonReactor
@@ -8,7 +7,7 @@ namespace DragonReactor
     {
         public string[] CommandAliases()
         {
-            return new string[] { "reactor" };
+            return new string[] { "compmod" };
         }
 
         public string Description()
