@@ -10,9 +10,9 @@ namespace DragonReactor
 {
     class ReactorPluginManager
     {
-        private int VanillaReactorMaxType = 0;
+        public readonly int VanillaReactorMaxType = 0;
         private static ReactorPluginManager m_instance = null;
-        private static List<ReactorPlugin> ReactorTypes = new List<ReactorPlugin>();
+        public readonly List<ReactorPlugin> ReactorTypes = new List<ReactorPlugin>();
         public static ReactorPluginManager Instance
         {
             get
@@ -79,10 +79,12 @@ namespace DragonReactor
             {
                 InReactor = new PLReactor((EReactorType)Subtype, level);
             }
-            if (InReactor.SubType == 7 && Subtype - Instance.VanillaReactorMaxType < ReactorTypes.Count)
+            int subtypeformodded = Subtype - Instance.VanillaReactorMaxType;
+            Logger.Info($"Subtype for modded is {subtypeformodded}");
+            if (InReactor.SubType == 7 && subtypeformodded <= Instance.ReactorTypes.Count && subtypeformodded > -1)
             {
                 Logger.Info("Creating reactor from list info");
-                ReactorPlugin ReactorType = ReactorTypes[Subtype - Instance.VanillaReactorMaxType];
+                ReactorPlugin ReactorType = Instance.ReactorTypes[Subtype - Instance.VanillaReactorMaxType];
                 InReactor.SubType = Subtype;
                 InReactor.Name = ReactorType.Name;
                 InReactor.Desc = ReactorType.Description;
@@ -90,10 +92,12 @@ namespace DragonReactor
                 InReactor.EnergySignatureAmt = ReactorType.EnergySignatureAmount;
                 InReactor.TempMax = ReactorType.MaxTemp;
                 InReactor.EmergencyCooldownTime = ReactorType.EmergencyCooldownTime;
+                InReactor.HeatOutput = ReactorType.HeatOutput;
                 InReactor.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredInt)ReactorType.MarketPrice);
                 InReactor.CargoVisualPrefabID = ReactorType.CargoVisualID;
                 InReactor.CanBeDroppedOnShipDeath = ReactorType.CanBeDroppedOnShipDeath;
                 InReactor.Experimental = ReactorType.Experimental;
+                InReactor.Unstable = ReactorType.Unstable;
                 InReactor.Contraband = ReactorType.Contraband;
                 InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
             }
@@ -108,6 +112,18 @@ namespace DragonReactor
         {
             __result = ReactorPluginManager.CreateReactor(inSubType, inLevel);
             return false;
+        }
+    }
+    [HarmonyPatch(typeof(PLReactor), "Tick")]
+    class TickPatch
+    {
+        static void Postfix(PLReactor __instance)
+        {
+            int subtypeformodded = __instance.SubType - ReactorPluginManager.Instance.VanillaReactorMaxType;
+            if (subtypeformodded > -1 && subtypeformodded < ReactorPluginManager.Instance.ReactorTypes.Count && __instance.ShipStats != null && __instance.ShipStats.ReactorTempMax != 0f)
+            {
+                ReactorPluginManager.Instance.ReactorTypes[subtypeformodded].ReactorPowerCode(__instance);
+            }
         }
     }
 }

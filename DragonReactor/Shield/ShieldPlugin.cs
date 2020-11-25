@@ -1,8 +1,8 @@
 ﻿namespace DragonReactor
 {
-    public abstract class ReactorPlugin
+    public abstract class ShieldPlugin
     {
-        public ReactorPlugin()
+        public ShieldPlugin()
         {
         }
         public virtual string Name
@@ -13,33 +13,41 @@
         {
             get { return ""; }
         }
-        public virtual float EnergyOutputMax
+        public virtual float ShieldMax
         {
-            get { return 15000f; }
+            get { return 70f; }
         }
-        public virtual float EnergySignatureAmount
+        public virtual float ChargeRateMax
         {
-            get { return 18f; }
+            get { return 12f; }
         }
-        public virtual float MaxTemp
+        public virtual float RecoveryRate
         {
-            get { return 1800f; }
+            get { return 15f; }
         }
-        public virtual float EmergencyCooldownTime
-        {
-            get { return 20f; }
-        }
-        public virtual float HeatOutput
+        public virtual float Deflection
         {
             get { return 1f; }
         }
+        public virtual float MinIntegrityPercentForQuantumShield
+        {
+            get { return .9f; }
+        }
+        public virtual float MaxPowerUsage_Watts
+        {
+            get { return 4600; }
+        }
+        public virtual int MinIntegrityAfterDamage
+        {
+            get { return -1; }
+        }
         public virtual int MarketPrice
         {
-            get { return 2100; }
+            get { return 1200; }
         }
         public virtual int CargoVisualID
         {
-            get { return 11; }
+            get { return 39; }
         }
         public virtual bool CanBeDroppedOnShipDeath
         {
@@ -56,9 +64,6 @@
         public virtual bool Contraband
         {
             get { return false; }
-        }
-        public virtual void ReactorPowerCode(PLReactor ReactorInstance)
-        {
         }
     }
 }
