@@ -95,6 +95,7 @@ namespace DragonReactor
                 InShield.RecoveryRate = ShieldType.RecoveryRate;
                 InShield.Deflection = ShieldType.Deflection;
                 InShield.MinIntegrityPercentForQuantumShield = ShieldType.MinIntegrityPercentForQuantumShield;
+                InShield.MinIntegrityAfterDamage = ShieldType.MinIntegrityAfterDamage;
                 InShield.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ShieldType.MaxPowerUsage_Watts * 1.4f));
                 InShield.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ObscuredInt)ShieldType.MarketPrice);
                 InShield.CargoVisualPrefabID = ShieldType.CargoVisualID;

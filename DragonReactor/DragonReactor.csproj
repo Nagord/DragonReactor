@@ -70,6 +70,9 @@
     <Compile Include="Reactors\DragonReactor.cs" />
     <Compile Include="Reactors\ReactorPlugin.cs" />
     <Compile Include="Reactors\ReactorPluginManager.cs" />
+    <Compile Include="WarpDrive\DragonWarpDrive.cs" />
+    <Compile Include="WarpDrive\WarpDrivePlugin.cs" />
+    <Compile Include="WarpDrive\WarpDrivePluginManager.cs" />
     <Compile Include="Shield\DragonShield.cs" />
     <Compile Include="Shield\ShieldPlugin.cs" />
     <Compile Include="Shield\ShieldPluginManager.cs" />
