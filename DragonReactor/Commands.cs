@@ -33,6 +33,7 @@ namespace DragonReactor
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(InertiaThrusterPluginManager.CreateInertiaThruster(InertiaThrusterPluginManager.Instance.GetInertiaThrusterIDFromName("Dragon InertiaThruster"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(ManeuverThrusterPluginManager.CreateManeuverThruster(ManeuverThrusterPluginManager.Instance.GetManeuverThrusterIDFromName("Dragon ManeuverThruster"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(CaptainsChairPluginManager.CreateCaptainsChair(CaptainsChairPluginManager.Instance.GetCaptainsChairIDFromName("Dragon CaptainsChair"), 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new MegaTurret.DragonMegaTurret(0, 0), -1, ESlotType.E_COMP_NONE);
                     break;
             }
 

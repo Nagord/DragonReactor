@@ -74,32 +74,32 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaReactorMaxType)
             {
                 InReactor = new PLReactor(EReactorType.E_REAC_ID_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaReactorMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.ReactorTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating reactor from list info");
+                    ReactorPlugin ReactorType = Instance.ReactorTypes[Subtype - Instance.VanillaReactorMaxType];
+                    InReactor.SubType = Subtype;
+                    InReactor.Name = ReactorType.Name;
+                    InReactor.Desc = ReactorType.Description;
+                    InReactor.EnergyOutputMax = ReactorType.EnergyOutputMax;
+                    InReactor.EnergySignatureAmt = ReactorType.EnergySignatureAmount;
+                    InReactor.TempMax = ReactorType.MaxTemp;
+                    InReactor.EmergencyCooldownTime = ReactorType.EmergencyCooldownTime;
+                    InReactor.HeatOutput = ReactorType.HeatOutput;
+                    InReactor.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredInt)ReactorType.MarketPrice);
+                    InReactor.CargoVisualPrefabID = ReactorType.CargoVisualID;
+                    InReactor.CanBeDroppedOnShipDeath = ReactorType.CanBeDroppedOnShipDeath;
+                    InReactor.Experimental = ReactorType.Experimental;
+                    InReactor.Unstable = ReactorType.Unstable;
+                    InReactor.Contraband = ReactorType.Contraband;
+                    InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
+                }
             }
             else
             {
                 InReactor = new PLReactor((EReactorType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaReactorMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InReactor.SubType == 7 && subtypeformodded <= Instance.ReactorTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating reactor from list info");
-                ReactorPlugin ReactorType = Instance.ReactorTypes[Subtype - Instance.VanillaReactorMaxType];
-                InReactor.SubType = Subtype;
-                InReactor.Name = ReactorType.Name;
-                InReactor.Desc = ReactorType.Description;
-                InReactor.EnergyOutputMax = ReactorType.EnergyOutputMax;
-                InReactor.EnergySignatureAmt = ReactorType.EnergySignatureAmount;
-                InReactor.TempMax = ReactorType.MaxTemp;
-                InReactor.EmergencyCooldownTime = ReactorType.EmergencyCooldownTime;
-                InReactor.HeatOutput = ReactorType.HeatOutput;
-                InReactor.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredInt)ReactorType.MarketPrice);
-                InReactor.CargoVisualPrefabID = ReactorType.CargoVisualID;
-                InReactor.CanBeDroppedOnShipDeath = ReactorType.CanBeDroppedOnShipDeath;
-                InReactor.Experimental = ReactorType.Experimental;
-                InReactor.Unstable = ReactorType.Unstable;
-                InReactor.Contraband = ReactorType.Contraband;
-                InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
             }
             return InReactor;
         }

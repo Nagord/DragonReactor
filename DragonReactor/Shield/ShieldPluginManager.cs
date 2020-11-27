@@ -76,40 +76,40 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaShieldMaxType)
             {
                 InShield = new PLShieldGenerator(EShieldGeneratorType.E_SG_ID_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaShieldMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.ShieldTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating Shield from list info");
+                    ShieldPlugin ShieldType = Instance.ShieldTypes[Subtype - Instance.VanillaShieldMaxType];
+                    InShield.SubType = Subtype;
+                    InShield.Name = ShieldType.Name;
+                    InShield.Desc = ShieldType.Description;
+                    InShield.Max = ShieldType.ShieldMax;
+                    InShield.ChargeRateMax = ShieldType.ChargeRateMax;
+                    InShield.RecoveryRate = ShieldType.RecoveryRate;
+                    InShield.Deflection = ShieldType.Deflection;
+                    InShield.MinIntegrityPercentForQuantumShield = ShieldType.MinIntegrityPercentForQuantumShield;
+                    InShield.MinIntegrityAfterDamage = ShieldType.MinIntegrityAfterDamage;
+                    InShield.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ShieldType.MaxPowerUsage_Watts * 1.4f));
+                    InShield.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ObscuredInt)ShieldType.MarketPrice);
+                    InShield.CargoVisualPrefabID = ShieldType.CargoVisualID;
+                    InShield.CanBeDroppedOnShipDeath = ShieldType.CanBeDroppedOnShipDeath;
+                    InShield.Experimental = ShieldType.Experimental;
+                    InShield.Unstable = ShieldType.Unstable;
+                    InShield.Contraband = ShieldType.Contraband;
+                    if (InShield.MinIntegrityAfterDamage == -1)
+                    {
+                        InShield.MinIntegrityAfterDamage = Mathf.RoundToInt(InShield.Max * 0.15f);
+                    }
+                    InShield.MinIntegrityAfterDamage = Mathf.RoundToInt(InShield.MinIntegrityAfterDamage * (1f - Mathf.Clamp(0.05f * InShield.Level, 0f, 0.8f)));
+                    InShield.CurrentMax = InShield.Max;
+                    InShield.Current = InShield.Max;
+                }
             }
             else
             {
                 InShield = new PLShieldGenerator((EShieldGeneratorType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaShieldMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InShield.SubType == 10 && subtypeformodded <= Instance.ShieldTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating Shield from list info");
-                ShieldPlugin ShieldType = Instance.ShieldTypes[Subtype - Instance.VanillaShieldMaxType];
-                InShield.SubType = Subtype;
-                InShield.Name = ShieldType.Name;
-                InShield.Desc = ShieldType.Description;
-                InShield.Max = ShieldType.ShieldMax;
-                InShield.ChargeRateMax = ShieldType.ChargeRateMax;
-                InShield.RecoveryRate = ShieldType.RecoveryRate;
-                InShield.Deflection = ShieldType.Deflection;
-                InShield.MinIntegrityPercentForQuantumShield = ShieldType.MinIntegrityPercentForQuantumShield;
-                InShield.MinIntegrityAfterDamage = ShieldType.MinIntegrityAfterDamage;
-                InShield.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ShieldType.MaxPowerUsage_Watts * 1.4f));
-                InShield.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, (ObscuredInt)ShieldType.MarketPrice);
-                InShield.CargoVisualPrefabID = ShieldType.CargoVisualID;
-                InShield.CanBeDroppedOnShipDeath = ShieldType.CanBeDroppedOnShipDeath;
-                InShield.Experimental = ShieldType.Experimental;
-                InShield.Unstable = ShieldType.Unstable;
-                InShield.Contraband = ShieldType.Contraband;
-                if (InShield.MinIntegrityAfterDamage == -1)
-                {
-                    InShield.MinIntegrityAfterDamage = Mathf.RoundToInt(InShield.Max * 0.15f);
-                }
-                InShield.MinIntegrityAfterDamage = Mathf.RoundToInt(InShield.MinIntegrityAfterDamage * (1f - Mathf.Clamp(0.05f * InShield.Level, 0f, 0.8f)));
-                InShield.CurrentMax = InShield.Max;
-                InShield.Current = InShield.Max;
             }
             return InShield;
         }

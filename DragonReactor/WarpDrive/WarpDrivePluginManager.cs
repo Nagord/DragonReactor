@@ -76,30 +76,30 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaWarpDriveMaxType)
             {
                 InWarpDrive = new PLWarpDrive(EWarpDriveType.E_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaWarpDriveMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.WarpDriveTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating WarpDrive from list info");
+                    WarpDrivePlugin WarpDriveType = Instance.WarpDriveTypes[Subtype - Instance.VanillaWarpDriveMaxType];
+                    InWarpDrive.SubType = Subtype;
+                    InWarpDrive.Name = WarpDriveType.Name;
+                    InWarpDrive.Desc = WarpDriveType.Description;
+                    InWarpDrive.ChargeSpeed = WarpDriveType.ChargeSpeed;
+                    InWarpDrive.WarpRange = WarpDriveType.WarpRange;
+                    InWarpDrive.EnergySignatureAmt = WarpDriveType.EnergySignature;
+                    InWarpDrive.NumberOfChargingNodes = WarpDriveType.NumberOfChargesPerFuel;
+                    InWarpDrive.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InWarpDrive, (ObscuredInt)WarpDriveType.MarketPrice);
+                    InWarpDrive.CargoVisualPrefabID = WarpDriveType.CargoVisualID;
+                    InWarpDrive.CanBeDroppedOnShipDeath = WarpDriveType.CanBeDroppedOnShipDeath;
+                    InWarpDrive.Experimental = WarpDriveType.Experimental;
+                    InWarpDrive.Unstable = WarpDriveType.Unstable;
+                    InWarpDrive.Contraband = WarpDriveType.Contraband;
+                }
             }
             else
             {
                 InWarpDrive = new PLWarpDrive((EWarpDriveType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaWarpDriveMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InWarpDrive.SubType == 15 && subtypeformodded <= Instance.WarpDriveTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating WarpDrive from list info");
-                WarpDrivePlugin WarpDriveType = Instance.WarpDriveTypes[Subtype - Instance.VanillaWarpDriveMaxType];
-                InWarpDrive.SubType = Subtype;
-                InWarpDrive.Name = WarpDriveType.Name;
-                InWarpDrive.Desc = WarpDriveType.Description;
-                InWarpDrive.ChargeSpeed = WarpDriveType.ChargeSpeed;
-                InWarpDrive.WarpRange = WarpDriveType.WarpRange;
-                InWarpDrive.EnergySignatureAmt = WarpDriveType.EnergySignature;
-                InWarpDrive.NumberOfChargingNodes = WarpDriveType.NumberOfChargesPerFuel;
-                InWarpDrive.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InWarpDrive, (ObscuredInt)WarpDriveType.MarketPrice);
-                InWarpDrive.CargoVisualPrefabID = WarpDriveType.CargoVisualID;
-                InWarpDrive.CanBeDroppedOnShipDeath = WarpDriveType.CanBeDroppedOnShipDeath;
-                InWarpDrive.Experimental = WarpDriveType.Experimental;
-                InWarpDrive.Unstable = WarpDriveType.Unstable;
-                InWarpDrive.Contraband = WarpDriveType.Contraband;
             }
             return InWarpDrive;
         }

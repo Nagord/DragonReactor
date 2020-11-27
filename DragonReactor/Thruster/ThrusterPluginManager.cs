@@ -76,29 +76,29 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaThrusterMaxType)
             {
                 InThruster = new PLThruster(EThrusterType.MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaThrusterMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.ThrusterTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating Thruster from list info");
+                    ThrusterPlugin ThrusterType = Instance.ThrusterTypes[Subtype - Instance.VanillaThrusterMaxType];
+                    InThruster.SubType = Subtype;
+                    InThruster.Name = ThrusterType.Name;
+                    InThruster.Desc = ThrusterType.Description;
+                    InThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxOutput);
+                    InThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxPowerUsage_Watts);
+                    InThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, (ObscuredInt)ThrusterType.MarketPrice);
+                    InThruster.CargoVisualPrefabID = ThrusterType.CargoVisualID;
+                    InThruster.CanBeDroppedOnShipDeath = ThrusterType.CanBeDroppedOnShipDeath;
+                    InThruster.Experimental = ThrusterType.Experimental;
+                    InThruster.Unstable = ThrusterType.Unstable;
+                    InThruster.Contraband = ThrusterType.Contraband;
+                    InThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InThruster, new object[0]);
+                }
             }
             else
             {
                 InThruster = new PLThruster((EThrusterType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaThrusterMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InThruster.SubType == 5 && subtypeformodded <= Instance.ThrusterTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating Thruster from list info");
-                ThrusterPlugin ThrusterType = Instance.ThrusterTypes[Subtype - Instance.VanillaThrusterMaxType];
-                InThruster.SubType = Subtype;
-                InThruster.Name = ThrusterType.Name;
-                InThruster.Desc = ThrusterType.Description;
-                InThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxOutput);
-                InThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxPowerUsage_Watts);
-                InThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, (ObscuredInt)ThrusterType.MarketPrice);
-                InThruster.CargoVisualPrefabID = ThrusterType.CargoVisualID;
-                InThruster.CanBeDroppedOnShipDeath = ThrusterType.CanBeDroppedOnShipDeath;
-                InThruster.Experimental = ThrusterType.Experimental;
-                InThruster.Unstable = ThrusterType.Unstable;
-                InThruster.Contraband = ThrusterType.Contraband;
-                InThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InThruster, new object[0]);
             }
             return InThruster;
         }

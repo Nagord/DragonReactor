@@ -76,32 +76,31 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaHullMaxType)
             {
                 InHull = new PLHull(EHullType.E_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaHullMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.HullTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating Hull from list info");
+                    HullPlugin HullType = Instance.HullTypes[Subtype - Instance.VanillaHullMaxType];
+                    InHull.SubType = Subtype;
+                    InHull.Name = HullType.Name;
+                    InHull.Desc = HullType.Description;
+                    InHull.Max = HullType.HullMax;
+                    InHull.Armor = HullType.Armor;
+                    InHull.Defense = HullType.Defense;
+                    InHull.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InHull, (ObscuredInt)HullType.MarketPrice);
+                    InHull.CargoVisualPrefabID = HullType.CargoVisualID;
+                    InHull.CanBeDroppedOnShipDeath = HullType.CanBeDroppedOnShipDeath;
+                    InHull.Experimental = HullType.Experimental;
+                    InHull.Unstable = HullType.Unstable;
+                    InHull.Contraband = HullType.Contraband;
+                    InHull.Max *= 2f;
+                    InHull.Current = InHull.Max;
+                }
             }
             else
             {
                 InHull = new PLHull((EHullType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaHullMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InHull.SubType == 15 && subtypeformodded <= Instance.HullTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating Hull from list info");
-                HullPlugin HullType = Instance.HullTypes[Subtype - Instance.VanillaHullMaxType];
-                InHull.SubType = Subtype;
-                InHull.Name = HullType.Name;
-                InHull.Desc = HullType.Description;
-                InHull.Max = HullType.HullMax;
-                InHull.Armor = HullType.Armor;
-                InHull.Defense = HullType.Defense;
-                InHull.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InHull, (ObscuredInt)HullType.MarketPrice);
-                InHull.CargoVisualPrefabID = HullType.CargoVisualID;
-                InHull.CanBeDroppedOnShipDeath = HullType.CanBeDroppedOnShipDeath;
-                InHull.Experimental = HullType.Experimental;
-                InHull.Unstable = HullType.Unstable;
-                InHull.Contraband = HullType.Contraband;
-                
-                InHull.Max *= 2f;
-                InHull.Current = InHull.Max;
             }
             return InHull;
         }

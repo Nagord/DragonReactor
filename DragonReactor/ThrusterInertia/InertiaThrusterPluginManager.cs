@@ -76,29 +76,29 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaInertiaThrusterMaxType)
             {
                 InInertiaThruster = new PLInertiaThruster(EInertiaThrusterType.E_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaInertiaThrusterMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.InertiaThrusterTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating InertiaThruster from list info");
+                    InertiaThrusterPlugin InertiaThrusterType = Instance.InertiaThrusterTypes[Subtype - Instance.VanillaInertiaThrusterMaxType];
+                    InInertiaThruster.SubType = Subtype;
+                    InInertiaThruster.Name = InertiaThrusterType.Name;
+                    InInertiaThruster.Desc = InertiaThrusterType.Description;
+                    InInertiaThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxOutput);
+                    InInertiaThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxPowerUsage_Watts);
+                    InInertiaThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, (ObscuredInt)InertiaThrusterType.MarketPrice);
+                    InInertiaThruster.CargoVisualPrefabID = InertiaThrusterType.CargoVisualID;
+                    InInertiaThruster.CanBeDroppedOnShipDeath = InertiaThrusterType.CanBeDroppedOnShipDeath;
+                    InInertiaThruster.Experimental = InertiaThrusterType.Experimental;
+                    InInertiaThruster.Unstable = InertiaThrusterType.Unstable;
+                    InInertiaThruster.Contraband = InertiaThrusterType.Contraband;
+                    InInertiaThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InInertiaThruster, new object[0]);
+                }
             }
             else
             {
                 InInertiaThruster = new PLInertiaThruster((EInertiaThrusterType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaInertiaThrusterMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InInertiaThruster.SubType == 1 && subtypeformodded <= Instance.InertiaThrusterTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating InertiaThruster from list info");
-                InertiaThrusterPlugin InertiaThrusterType = Instance.InertiaThrusterTypes[Subtype - Instance.VanillaInertiaThrusterMaxType];
-                InInertiaThruster.SubType = Subtype;
-                InInertiaThruster.Name = InertiaThrusterType.Name;
-                InInertiaThruster.Desc = InertiaThrusterType.Description;
-                InInertiaThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxOutput);
-                InInertiaThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxPowerUsage_Watts);
-                InInertiaThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, (ObscuredInt)InertiaThrusterType.MarketPrice);
-                InInertiaThruster.CargoVisualPrefabID = InertiaThrusterType.CargoVisualID;
-                InInertiaThruster.CanBeDroppedOnShipDeath = InertiaThrusterType.CanBeDroppedOnShipDeath;
-                InInertiaThruster.Experimental = InertiaThrusterType.Experimental;
-                InInertiaThruster.Unstable = InertiaThrusterType.Unstable;
-                InInertiaThruster.Contraband = InertiaThrusterType.Contraband;
-                InInertiaThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InInertiaThruster, new object[0]);
             }
             return InInertiaThruster;
         }

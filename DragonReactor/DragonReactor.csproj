@@ -61,6 +61,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MegaTurret\MegaTurretPlugin.cs" />
+    <Compile Include="MegaTurret\MegaTurretPluginManager.cs" />
+    <Compile Include="MegaTurret\DragonMegaTurret.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Hull\DragonHull.cs" />
     <Compile Include="Hull\HullPlugin.cs" />

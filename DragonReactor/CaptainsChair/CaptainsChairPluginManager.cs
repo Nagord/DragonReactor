@@ -74,26 +74,26 @@ namespace DragonReactor
             if (Subtype >= Instance.VanillaCaptainsChairMaxType)
             {
                 InCaptainsChair = new PLCaptainsChair(ECaptainsChairType.E_MAX, level);
+                int subtypeformodded = Subtype - Instance.VanillaCaptainsChairMaxType;
+                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (subtypeformodded <= Instance.CaptainsChairTypes.Count && subtypeformodded > -1)
+                {
+                    Logger.Info("Creating CaptainsChair from list info");
+                    CaptainsChairPlugin CaptainsChairType = Instance.CaptainsChairTypes[Subtype - Instance.VanillaCaptainsChairMaxType];
+                    InCaptainsChair.SubType = Subtype;
+                    InCaptainsChair.Name = CaptainsChairType.Name;
+                    InCaptainsChair.Desc = CaptainsChairType.Description;
+                    InCaptainsChair.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCaptainsChair, (ObscuredInt)CaptainsChairType.MarketPrice);
+                    InCaptainsChair.CargoVisualPrefabID = CaptainsChairType.CargoVisualID;
+                    InCaptainsChair.CanBeDroppedOnShipDeath = CaptainsChairType.CanBeDroppedOnShipDeath;
+                    InCaptainsChair.Experimental = CaptainsChairType.Experimental;
+                    InCaptainsChair.Unstable = CaptainsChairType.Unstable;
+                    InCaptainsChair.Contraband = CaptainsChairType.Contraband;
+                }
             }
             else
             {
                 InCaptainsChair = new PLCaptainsChair((ECaptainsChairType)Subtype, level);
-            }
-            int subtypeformodded = Subtype - Instance.VanillaCaptainsChairMaxType;
-            Logger.Info($"Subtype for modded is {subtypeformodded}");
-            if (InCaptainsChair.SubType == 3 && subtypeformodded <= Instance.CaptainsChairTypes.Count && subtypeformodded > -1)
-            {
-                Logger.Info("Creating CaptainsChair from list info");
-                CaptainsChairPlugin CaptainsChairType = Instance.CaptainsChairTypes[Subtype - Instance.VanillaCaptainsChairMaxType];
-                InCaptainsChair.SubType = Subtype;
-                InCaptainsChair.Name = CaptainsChairType.Name;
-                InCaptainsChair.Desc = CaptainsChairType.Description;
-                InCaptainsChair.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCaptainsChair, (ObscuredInt)CaptainsChairType.MarketPrice);
-                InCaptainsChair.CargoVisualPrefabID = CaptainsChairType.CargoVisualID;
-                InCaptainsChair.CanBeDroppedOnShipDeath = CaptainsChairType.CanBeDroppedOnShipDeath;
-                InCaptainsChair.Experimental = CaptainsChairType.Experimental;
-                InCaptainsChair.Unstable = CaptainsChairType.Unstable;
-                InCaptainsChair.Contraband = CaptainsChairType.Contraband;
             }
             return InCaptainsChair;
         }
