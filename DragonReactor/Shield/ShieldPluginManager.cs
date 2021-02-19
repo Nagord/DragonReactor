@@ -1,14 +1,13 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.Shield
 {
     class ShieldPluginManager
     {
@@ -44,7 +43,7 @@ namespace DragonReactor
                         if (GetShieldIDFromName(ShieldPluginHandler.Name) == -1)
                         {
                             ShieldTypes.Add(ShieldPluginHandler);
-                            Logger.Info($"Added Shield: '{ShieldPluginHandler.Name}'");
+                            Logger.Info($"Added Shield: '{ShieldPluginHandler.Name}' with ID '{GetShieldIDFromName(ShieldPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +84,7 @@ namespace DragonReactor
                     InShield.SubType = Subtype;
                     InShield.Name = ShieldType.Name;
                     InShield.Desc = ShieldType.Description;
+                    InShield.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InShield, ShieldType.IconTexture);
                     InShield.Max = ShieldType.ShieldMax;
                     InShield.ChargeRateMax = ShieldType.ChargeRateMax;
                     InShield.RecoveryRate = ShieldType.RecoveryRate;

@@ -1,14 +1,12 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.Thruster
 {
     class ThrusterPluginManager
     {
@@ -44,7 +42,7 @@ namespace DragonReactor
                         if (GetThrusterIDFromName(ThrusterPluginHandler.Name) == -1)
                         {
                             ThrusterTypes.Add(ThrusterPluginHandler);
-                            Logger.Info($"Added Thruster: '{ThrusterPluginHandler.Name}'");
+                            Logger.Info($"Added Thruster: '{ThrusterPluginHandler.Name}' with ID '{GetThrusterIDFromName(ThrusterPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +83,7 @@ namespace DragonReactor
                     InThruster.SubType = Subtype;
                     InThruster.Name = ThrusterType.Name;
                     InThruster.Desc = ThrusterType.Description;
+                    InThruster.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.IconTexture);
                     InThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxOutput);
                     InThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, ThrusterType.MaxPowerUsage_Watts);
                     InThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, (ObscuredInt)ThrusterType.MarketPrice);

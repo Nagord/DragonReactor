@@ -1,14 +1,12 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.ManeuverThruster
 {
     class ManeuverThrusterPluginManager
     {
@@ -44,7 +42,7 @@ namespace DragonReactor
                         if (GetManeuverThrusterIDFromName(ManeuverThrusterPluginHandler.Name) == -1)
                         {
                             ManeuverThrusterTypes.Add(ManeuverThrusterPluginHandler);
-                            Logger.Info($"Added ManeuverThruster: '{ManeuverThrusterPluginHandler.Name}'");
+                            Logger.Info($"Added ManeuverThruster: '{ManeuverThrusterPluginHandler.Name}' with ID '{GetManeuverThrusterIDFromName(ManeuverThrusterPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +83,7 @@ namespace DragonReactor
                     InManeuverThruster.SubType = Subtype;
                     InManeuverThruster.Name = ManeuverThrusterType.Name;
                     InManeuverThruster.Desc = ManeuverThrusterType.Description;
+                    InManeuverThruster.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InManeuverThruster, ManeuverThrusterType.IconTexture);
                     InManeuverThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InManeuverThruster, ManeuverThrusterType.MaxOutput);
                     InManeuverThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InManeuverThruster, ManeuverThrusterType.MaxPowerUsage_Watts);
                     InManeuverThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InManeuverThruster, (ObscuredInt)ManeuverThrusterType.MarketPrice);

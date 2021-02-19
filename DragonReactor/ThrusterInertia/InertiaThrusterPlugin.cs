@@ -1,4 +1,6 @@
-﻿namespace DragonReactor
+﻿using UnityEngine;
+
+namespace DragonReactor.InertiaThruster
 {
     public abstract class InertiaThrusterPlugin
     {
@@ -12,6 +14,10 @@
         public virtual string Description
         {
             get { return ""; }
+        }
+        public virtual Texture2D IconTexture
+        {
+            get { return (Texture2D)Resources.Load("Icons/81_Thrusters"); }
         }
         public virtual float MaxOutput
         {

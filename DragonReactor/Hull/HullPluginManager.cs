@@ -1,14 +1,12 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.Hull
 {
     class HullPluginManager
     {
@@ -44,7 +42,7 @@ namespace DragonReactor
                         if (GetHullIDFromName(HullPluginHandler.Name) == -1)
                         {
                             HullTypes.Add(HullPluginHandler);
-                            Logger.Info($"Added Hull: '{HullPluginHandler.Name}'");
+                            Logger.Info($"Added Hull: '{HullPluginHandler.Name}' with ID '{GetHullIDFromName(HullPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +83,7 @@ namespace DragonReactor
                     InHull.SubType = Subtype;
                     InHull.Name = HullType.Name;
                     InHull.Desc = HullType.Description;
+                    InHull.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InHull, HullType.IconTexture);
                     InHull.Max = HullType.HullMax;
                     InHull.Armor = HullType.Armor;
                     InHull.Defense = HullType.Defense;

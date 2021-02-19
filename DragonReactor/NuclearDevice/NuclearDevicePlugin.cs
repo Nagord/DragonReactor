@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Hull
+namespace DragonReactor.NuclearDevice
 {
-    public abstract class HullPlugin
+    public abstract class NuclearDevicePlugin
     {
-        public HullPlugin()
+        public NuclearDevicePlugin()
         {
         }
         public virtual string Name
@@ -17,27 +17,39 @@ namespace DragonReactor.Hull
         }
         public virtual Texture2D IconTexture
         {
-            get { return (Texture2D)Resources.Load("Icons/20_Hull"); }
+            get { return (Texture2D)Resources.Load("Icons/80_Thrusters"); }
         }
-        public virtual float HullMax
+        public virtual float MaxDamage
         {
-            get { return 750f; }
+            get { return 3800f; }
         }
-        public virtual float Armor
+        public virtual float Range
         {
-            get { return .15f; }
+            get { return 4000f; }
         }
-        public virtual float Defense
+        public virtual float FuelBurnRate
         {
-            get { return .2f; }
+            get { return 6f; }
+        }
+        public virtual float TurnRate
+        {
+            get { return .12f; }
+        }
+        public virtual float IntimidationBonus
+        {
+            get { return 10f; }
+        }
+        public virtual float Health
+        {
+            get { return 200f; }
         }
         public virtual int MarketPrice
         {
-            get { return 1550; }
+            get { return 6750; }
         }
         public virtual int CargoVisualID
         {
-            get { return 1; }
+            get { return 15; }
         }
         public virtual bool CanBeDroppedOnShipDeath
         {

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Hull
+namespace DragonReactor.MissionShipComponent
 {
-    public abstract class HullPlugin
+    public abstract class MissionShipComponentPlugin
     {
-        public HullPlugin()
+        public MissionShipComponentPlugin()
         {
         }
         public virtual string Name
@@ -17,27 +17,15 @@ namespace DragonReactor.Hull
         }
         public virtual Texture2D IconTexture
         {
-            get { return (Texture2D)Resources.Load("Icons/20_Hull"); }
-        }
-        public virtual float HullMax
-        {
-            get { return 750f; }
-        }
-        public virtual float Armor
-        {
-            get { return .15f; }
-        }
-        public virtual float Defense
-        {
-            get { return .2f; }
+            get { return (Texture2D)Resources.Load("defaultShipCompIcon"); }
         }
         public virtual int MarketPrice
         {
-            get { return 1550; }
+            get { return 10000; }
         }
         public virtual int CargoVisualID
         {
-            get { return 1; }
+            get { return 7; }
         }
         public virtual bool CanBeDroppedOnShipDeath
         {

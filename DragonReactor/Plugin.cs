@@ -4,7 +4,7 @@ namespace DragonReactor
 {
     public class Plugin : PulsarPlugin
     {
-        public override string Version => "0.4.0";
+        public override string Version => "0.5.0";
 
         public override string Author => "Dragon";
 
@@ -18,3 +18,10 @@ namespace DragonReactor
         }
     }
 }
+/*
+To Be Completed:
+Distress - Will not be added until requested
+FB Recipe - Will not be added until requested.
+Biscuit Bomb - Will not be added until requested.
+Cloak - Will not be added until requested.
+*/

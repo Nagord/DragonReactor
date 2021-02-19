@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Hull
+namespace DragonReactor.Virus
 {
-    public abstract class HullPlugin
+    public abstract class VirusPlugin
     {
-        public HullPlugin()
+        public VirusPlugin()
         {
         }
         public virtual string Name
@@ -15,25 +15,17 @@ namespace DragonReactor.Hull
         {
             get { return ""; }
         }
+        public virtual int InfectionTimeLimitMs
+        {
+            get { return 40000; }
+        }
         public virtual Texture2D IconTexture
         {
-            get { return (Texture2D)Resources.Load("Icons/20_Hull"); }
-        }
-        public virtual float HullMax
-        {
-            get { return 750f; }
-        }
-        public virtual float Armor
-        {
-            get { return .15f; }
-        }
-        public virtual float Defense
-        {
-            get { return .2f; }
+            get { return PLGlobal.Instance.VirusBGTexture;  }
         }
         public virtual int MarketPrice
         {
-            get { return 1550; }
+            get { return 0; }
         }
         public virtual int CargoVisualID
         {
@@ -41,7 +33,7 @@ namespace DragonReactor.Hull
         }
         public virtual bool CanBeDroppedOnShipDeath
         {
-            get { return true; }
+            get { return false; }
         }
         public virtual bool Experimental
         {
@@ -54,6 +46,14 @@ namespace DragonReactor.Hull
         public virtual bool Contraband
         {
             get { return false; }
+        }
+        public virtual void FinalLateAddStats(PLVirus InVirus)
+        {
+            
+        }
+        public virtual void Update(PLVirus InVirus)
+        {
+
         }
     }
 }

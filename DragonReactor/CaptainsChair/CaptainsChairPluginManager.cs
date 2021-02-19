@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.CaptainsChair
 {
-    class CaptainsChairPluginManager
+    public class CaptainsChairPluginManager
     {
         public readonly int VanillaCaptainsChairMaxType = 0;
         private static CaptainsChairPluginManager m_instance = null;
@@ -42,7 +42,7 @@ namespace DragonReactor
                         if (GetCaptainsChairIDFromName(CaptainsChairPluginHandler.Name) == -1)
                         {
                             CaptainsChairTypes.Add(CaptainsChairPluginHandler);
-                            Logger.Info($"Added CaptainsChair: '{CaptainsChairPluginHandler.Name}'");
+                            Logger.Info($"Added CaptainsChair: '{CaptainsChairPluginHandler.Name}' with ID '{GetCaptainsChairIDFromName(CaptainsChairPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -83,6 +83,7 @@ namespace DragonReactor
                     InCaptainsChair.SubType = Subtype;
                     InCaptainsChair.Name = CaptainsChairType.Name;
                     InCaptainsChair.Desc = CaptainsChairType.Description;
+                    InCaptainsChair.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCaptainsChair, CaptainsChairType.IconTexture);
                     InCaptainsChair.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCaptainsChair, (ObscuredInt)CaptainsChairType.MarketPrice);
                     InCaptainsChair.CargoVisualPrefabID = CaptainsChairType.CargoVisualID;
                     InCaptainsChair.CanBeDroppedOnShipDeath = CaptainsChairType.CanBeDroppedOnShipDeath;

@@ -41,7 +41,7 @@ namespace DragonReactor.MegaTurret
                         if (GetMegaTurretIDFromName(MegaTurretPluginHandler.Name) == -1)
                         {
                             MegaTurretTypes.Add(MegaTurretPluginHandler);
-                            Logger.Info($"Added MegaTurret: '{MegaTurretPluginHandler.Name}'");
+                            Logger.Info($"Added MegaTurret: '{MegaTurretPluginHandler.Name}' with ID '{GetMegaTurretIDFromName(MegaTurretPluginHandler.Name)}'");
                         }
                         else
                         {

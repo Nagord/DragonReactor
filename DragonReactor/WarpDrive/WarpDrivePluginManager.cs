@@ -8,7 +8,7 @@ using System.Reflection;
 using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.WarpDrive
 {
     class WarpDrivePluginManager
     {
@@ -44,7 +44,7 @@ namespace DragonReactor
                         if (GetWarpDriveIDFromName(WarpDrivePluginHandler.Name) == -1)
                         {
                             WarpDriveTypes.Add(WarpDrivePluginHandler);
-                            Logger.Info($"Added WarpDrive: '{WarpDrivePluginHandler.Name}'");
+                            Logger.Info($"Added WarpDrive: '{WarpDrivePluginHandler.Name}' with ID '{GetWarpDriveIDFromName(WarpDrivePluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +85,7 @@ namespace DragonReactor
                     InWarpDrive.SubType = Subtype;
                     InWarpDrive.Name = WarpDriveType.Name;
                     InWarpDrive.Desc = WarpDriveType.Description;
+                    InWarpDrive.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InWarpDrive, WarpDriveType.IconTexture);
                     InWarpDrive.ChargeSpeed = WarpDriveType.ChargeSpeed;
                     InWarpDrive.WarpRange = WarpDriveType.WarpRange;
                     InWarpDrive.EnergySignatureAmt = WarpDriveType.EnergySignature;

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Reactor
+namespace DragonReactor.WarpDriveProgram
 {
-    public abstract class ReactorPlugin
+    public abstract class WarpDriveProgramPlugin
     {
-        public ReactorPlugin()
+        public WarpDriveProgramPlugin()
         {
         }
         public virtual string Name
@@ -15,37 +15,37 @@ namespace DragonReactor.Reactor
         {
             get { return ""; }
         }
+        public virtual int MaxLevelCharges
+        {
+            get { return 3; }
+        }
+        public virtual bool IsVirus
+        {
+            get { return false; }
+        }
+        public virtual int VirusSubtype
+        {
+            get { return 0; }
+        }
+        public virtual string ShortName
+        {
+            get { return ""; }
+        }
+        public virtual float ActiveTime
+        {
+            get { return 15f; }
+        }
         public virtual Texture2D IconTexture
         {
-            get { return (Texture2D)Resources.Load("Icons/28_Reactor"); }
-        }
-        public virtual float EnergyOutputMax
-        {
-            get { return 15000f; }
-        }
-        public virtual float EnergySignatureAmount
-        {
-            get { return 18f; }
-        }
-        public virtual float MaxTemp
-        {
-            get { return 1800f; }
-        }
-        public virtual float EmergencyCooldownTime
-        {
-            get { return 20f; }
-        }
-        public virtual float HeatOutput
-        {
-            get { return 1f; }
+            get { return PLGlobal.Instance.ProgramBGTexture;  }
         }
         public virtual int MarketPrice
         {
-            get { return 2100; }
+            get { return 1500; }
         }
         public virtual int CargoVisualID
         {
-            get { return 11; }
+            get { return 36; }
         }
         public virtual bool CanBeDroppedOnShipDeath
         {
@@ -63,8 +63,13 @@ namespace DragonReactor.Reactor
         {
             get { return false; }
         }
-        public virtual void ReactorPowerCode(PLReactor ReactorInstance)
+        public virtual void FinalLateAddStats(PLWarpDriveProgram InWarpDriveProgram)
         {
+            
+        }
+        public virtual void Execute(PLWarpDriveProgram InWarpDriveProgram)
+        {
+
         }
     }
 }

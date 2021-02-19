@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Shield
+﻿namespace DragonReactor.WarpDrive
 {
     class DragonWarpDrive : WarpDrivePlugin
     {

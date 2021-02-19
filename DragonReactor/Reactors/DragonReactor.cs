@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor
+namespace DragonReactor.Reactor
 {
     class DragonReactor : ReactorPlugin
     {

@@ -1,4 +1,6 @@
-﻿namespace DragonReactor
+﻿using UnityEngine;
+
+namespace DragonReactor.WarpDrive
 {
     public abstract class WarpDrivePlugin
     {
@@ -12,6 +14,10 @@
         public virtual string Description
         {
             get { return ""; }
+        }
+        public virtual Texture2D IconTexture
+        {
+            get { return (Texture2D)Resources.Load("Icons/17_Warp"); }
         }
         public virtual float ChargeSpeed
         {

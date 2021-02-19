@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DragonReactor
+namespace DragonReactor.Reactor
 {
     class ReactorPluginManager
     {
@@ -42,7 +42,7 @@ namespace DragonReactor
                         if (GetReactorIDFromName(ReactorPluginHandler.Name) == -1)
                         {
                             ReactorTypes.Add(ReactorPluginHandler);
-                            Logger.Info($"Added reactor: '{ReactorPluginHandler.Name}'");
+                            Logger.Info($"Added reactor: '{ReactorPluginHandler.Name}' with ID '{GetReactorIDFromName(ReactorPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -83,6 +83,7 @@ namespace DragonReactor
                     InReactor.SubType = Subtype;
                     InReactor.Name = ReactorType.Name;
                     InReactor.Desc = ReactorType.Description;
+                    InReactor.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, ReactorType.IconTexture);
                     InReactor.EnergyOutputMax = ReactorType.EnergyOutputMax;
                     InReactor.EnergySignatureAmt = ReactorType.EnergySignatureAmount;
                     InReactor.TempMax = ReactorType.MaxTemp;

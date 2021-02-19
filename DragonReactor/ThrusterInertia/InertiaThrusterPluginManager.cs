@@ -1,14 +1,12 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor
+namespace DragonReactor.InertiaThruster
 {
     class InertiaThrusterPluginManager
     {
@@ -44,7 +42,7 @@ namespace DragonReactor
                         if (GetInertiaThrusterIDFromName(InertiaThrusterPluginHandler.Name) == -1)
                         {
                             InertiaThrusterTypes.Add(InertiaThrusterPluginHandler);
-                            Logger.Info($"Added InertiaThruster: '{InertiaThrusterPluginHandler.Name}'");
+                            Logger.Info($"Added InertiaThruster: '{InertiaThrusterPluginHandler.Name}' with ID '{GetInertiaThrusterIDFromName(InertiaThrusterPluginHandler.Name)}'");
                         }
                         else
                         {
@@ -85,6 +83,7 @@ namespace DragonReactor
                     InInertiaThruster.SubType = Subtype;
                     InInertiaThruster.Name = InertiaThrusterType.Name;
                     InInertiaThruster.Desc = InertiaThrusterType.Description;
+                    InInertiaThruster.GetType().GetField("m_IconTexture", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.IconTexture);
                     InInertiaThruster.GetType().GetField("m_MaxOutput", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxOutput);
                     InInertiaThruster.GetType().GetField("m_MaxPowerUsage_Watts", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, InertiaThrusterType.MaxPowerUsage_Watts);
                     InInertiaThruster.GetType().GetField("m_MarketPrice", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, (ObscuredInt)InertiaThrusterType.MarketPrice);

@@ -61,6 +61,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Virus\DragonVirus.cs" />
+    <Compile Include="Virus\VirusPlugin.cs" />
+    <Compile Include="Virus\VirusPluginManager.cs" />
+    <Compile Include="WarpDriveProgram\DragonWarpDriveProgramVirus.cs" />
+    <Compile Include="WarpDriveProgram\WarpDriveProgramPlugin.cs" />
+    <Compile Include="WarpDriveProgram\WarpDriveProgramPluginManager.cs" />
+    <Compile Include="WarpDriveProgram\DragonWarpDriveProgram.cs" />
+    <Compile Include="CPU\CPUPlugin.cs" />
+    <Compile Include="CPU\CPUPluginManager.cs" />
+    <Compile Include="CPU\DragonCPU.cs" />
+    <Compile Include="HullPlating\DragonHullPlating.cs" />
+    <Compile Include="HullPlating\HullPlatingPlugin.cs" />
+    <Compile Include="HullPlating\HullPlatingPluginManager.cs" />
+    <Compile Include="MissionShipComponent\DragonMissionShipComponent.cs" />
+    <Compile Include="MissionShipComponent\MissionShipComponentPlugin.cs" />
+    <Compile Include="MissionShipComponent\MissionShipComponentPluginManager.cs" />
+    <Compile Include="AutoTurret\DragonAutoTurret.cs" />
+    <Compile Include="AutoTurret\AutoTurretPlugin.cs" />
+    <Compile Include="AutoTurret\AutoTurretPluginManager.cs" />
+    <Compile Include="Turret\DragonTurret.cs" />
+    <Compile Include="Turret\TurretPlugin.cs" />
+    <Compile Include="Turret\TurretPluginManager.cs" />
+    <Compile Include="NuclearDevice\DragonNuclearDevice.cs" />
+    <Compile Include="NuclearDevice\NuclearDevicePlugin.cs" />
+    <Compile Include="NuclearDevice\NuclearDevicePluginManager.cs" />
+    <Compile Include="Missile\DragonMissile.cs" />
+    <Compile Include="Missile\MissilePlugin.cs" />
+    <Compile Include="Missile\MissilePluginManager.cs" />
+    <Compile Include="Extractor\ExtractorPlugin.cs" />
+    <Compile Include="Extractor\ExtractorPluginManager.cs" />
+    <Compile Include="Extractor\DragonExtractor.cs" />
     <Compile Include="MegaTurret\MegaTurretPlugin.cs" />
     <Compile Include="MegaTurret\MegaTurretPluginManager.cs" />
     <Compile Include="MegaTurret\DragonMegaTurret.cs" />

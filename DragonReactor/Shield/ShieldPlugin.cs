@@ -1,4 +1,6 @@
-﻿namespace DragonReactor
+﻿using UnityEngine;
+
+namespace DragonReactor.Shield
 {
     public abstract class ShieldPlugin
     {
@@ -12,6 +14,10 @@
         public virtual string Description
         {
             get { return ""; }
+        }
+        public virtual Texture2D IconTexture
+        {
+            get { return (Texture2D)Resources.Load("Icons/39_Sheilds"); }
         }
         public virtual float ShieldMax
         {
