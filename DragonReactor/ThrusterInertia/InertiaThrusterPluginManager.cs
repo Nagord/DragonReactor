@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.InertiaThruster
 {
-    class InertiaThrusterPluginManager
+    public class InertiaThrusterPluginManager
     {
         public readonly int VanillaInertiaThrusterMaxType = 0;
         private static InertiaThrusterPluginManager m_instance = null;

@@ -7,7 +7,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.Turret
 {
-    class TurretPluginManager
+    public class TurretPluginManager
     {
         public readonly int VanillaTurretMaxType = 0;
         private static TurretPluginManager m_instance = null;

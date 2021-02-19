@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.Missile
 {
-    class MissilePluginManager
+    public class MissilePluginManager
     {
         public readonly int VanillaMissileMaxType = 0;
         private static MissilePluginManager m_instance = null;

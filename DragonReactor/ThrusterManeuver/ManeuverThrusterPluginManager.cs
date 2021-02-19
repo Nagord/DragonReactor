@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.ManeuverThruster
 {
-    class ManeuverThrusterPluginManager
+    public class ManeuverThrusterPluginManager
     {
         public readonly int VanillaManeuverThrusterMaxType = 0;
         private static ManeuverThrusterPluginManager m_instance = null;

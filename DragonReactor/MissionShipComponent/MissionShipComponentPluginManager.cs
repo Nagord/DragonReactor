@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.MissionShipComponent
 {
-    class MissionShipComponentPluginManager
+    public class MissionShipComponentPluginManager
     {
         public readonly int VanillaMissionShipComponentMaxType = 0;
         private static MissionShipComponentPluginManager m_instance = null;

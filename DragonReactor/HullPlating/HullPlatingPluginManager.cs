@@ -7,7 +7,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.HullPlating
 {
-    class HullPlatingPluginManager
+    public class HullPlatingPluginManager
     {
         public readonly int VanillaHullPlatingMaxType = 0;
         private static HullPlatingPluginManager m_instance = null;

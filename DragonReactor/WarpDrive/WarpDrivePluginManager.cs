@@ -1,16 +1,14 @@
 ﻿using CodeStage.AntiCheat.ObscuredTypes;
 using HarmonyLib;
 using PulsarPluginLoader;
-using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.WarpDrive
 {
-    class WarpDrivePluginManager
+    public class WarpDrivePluginManager
     {
         public readonly int VanillaWarpDriveMaxType = 0;
         private static WarpDrivePluginManager m_instance = null;

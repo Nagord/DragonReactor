@@ -5,9 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Reflection.Emit;
 using UnityEngine;
-using static PulsarPluginLoader.Patches.HarmonyHelpers;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.WarpDriveProgram

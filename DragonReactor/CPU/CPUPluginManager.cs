@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.CPU
 {
-    class CPUPluginManager
+    public class CPUPluginManager
     {
         public readonly int VanillaCPUMaxType = 0;
         private static CPUPluginManager m_instance = null;

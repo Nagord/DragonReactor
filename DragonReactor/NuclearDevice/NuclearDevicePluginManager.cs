@@ -8,7 +8,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.NuclearDevice
 {
-    class NuclearDevicePluginManager
+    public class NuclearDevicePluginManager
     {
         public readonly int VanillaNuclearDeviceMaxType = 0;
         private static NuclearDevicePluginManager m_instance = null;

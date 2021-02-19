@@ -9,7 +9,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.Shield
 {
-    class ShieldPluginManager
+    public class ShieldPluginManager
     {
         public readonly int VanillaShieldMaxType = 0;
         private static ShieldPluginManager m_instance = null;

@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace DragonReactor.Reactor
 {
-    class ReactorPluginManager
+    public class ReactorPluginManager
     {
         public readonly int VanillaReactorMaxType = 0;
         private static ReactorPluginManager m_instance = null;

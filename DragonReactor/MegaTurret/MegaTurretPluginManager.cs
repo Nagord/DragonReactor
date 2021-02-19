@@ -7,7 +7,7 @@ using Logger = PulsarPluginLoader.Utilities.Logger;
 
 namespace DragonReactor.MegaTurret
 {
-    class MegaTurretPluginManager
+    public class MegaTurretPluginManager
     {
         public readonly int VanillaMegaTurretMaxType = 0;
         private static MegaTurretPluginManager m_instance = null;
