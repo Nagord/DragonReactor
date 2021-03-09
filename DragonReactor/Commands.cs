@@ -1,21 +1,21 @@
-﻿using DragonReactor.CaptainsChair;
-using DragonReactor.Extractor;
-using DragonReactor.Hull;
-using DragonReactor.InertiaThruster;
-using DragonReactor.ManeuverThruster;
-using DragonReactor.Missile;
-using DragonReactor.MissionShipComponent;
-using DragonReactor.NuclearDevice;
-using DragonReactor.Reactor;
-using DragonReactor.Shield;
-using DragonReactor.Thruster;
-using DragonReactor.WarpDrive;
+﻿using DragonReactor.Components.CaptainsChair;
+using DragonReactor.Components.Extractor;
+using DragonReactor.Components.Hull;
+using DragonReactor.Components.InertiaThruster;
+using DragonReactor.Components.ManeuverThruster;
+using DragonReactor.Components.Missile;
+using DragonReactor.Components.MissionShipComponent;
+using DragonReactor.Components.NuclearDevice;
+using DragonReactor.Components.Reactor;
+using DragonReactor.Components.Shield;
+using DragonReactor.Components.Thruster;
+using DragonReactor.Components.WarpDrive;
 using PulsarPluginLoader.Chat.Commands;
 using PulsarPluginLoader.Utilities;
 
 namespace DragonReactor
 {
-    class commands : IChatCommand
+    class Commands : IChatCommand
     {
         public string[] CommandAliases()
         {
@@ -44,15 +44,15 @@ namespace DragonReactor
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(InertiaThrusterPluginManager.CreateInertiaThruster(InertiaThrusterPluginManager.Instance.GetInertiaThrusterIDFromName("Dragon InertiaThruster"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(ManeuverThrusterPluginManager.CreateManeuverThruster(ManeuverThrusterPluginManager.Instance.GetManeuverThrusterIDFromName("Dragon ManeuverThruster"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(CaptainsChairPluginManager.CreateCaptainsChair(CaptainsChairPluginManager.Instance.GetCaptainsChairIDFromName("Dragon CaptainsChair"), 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new MegaTurret.DragonMegaTurret(0, 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.MegaTurret.DragonMegaTurret(0, 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(ExtractorPluginManager.CreateExtractor(ExtractorPluginManager.Instance.GetExtractorIDFromName("Dragon Extractor"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(MissilePluginManager.CreateMissile(MissilePluginManager.Instance.GetMissileIDFromName("Dragon Missile"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(NuclearDevicePluginManager.CreateNuclearDevice(NuclearDevicePluginManager.Instance.GetNuclearDeviceIDFromName("Dragon NuclearDevice"), 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Turret.DragonTurret(0, 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new HullPlating.DragonHullPlating(0, 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.Turret.DragonTurret(0, 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.HullPlating.DragonHullPlating(0, 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(MissionShipComponentPluginManager.CreateMissionShipComponent(MissionShipComponentPluginManager.Instance.GetMissionShipComponentIDFromName("Dragon MissionShipComponent"), 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new AutoTurret.DragonAutoTurret(0, 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(Virus.VirusPluginManager.CreateVirus(Virus.VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.AutoTurret.DragonAutoTurret(0, 0), -1, ESlotType.E_COMP_NONE);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(Components.Virus.VirusPluginManager.CreateVirus(Components.Virus.VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
                     break;
             }
 
