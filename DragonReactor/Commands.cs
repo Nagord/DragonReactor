@@ -9,6 +9,7 @@ using DragonReactor.Components.NuclearDevice;
 using DragonReactor.Components.Reactor;
 using DragonReactor.Components.Shield;
 using DragonReactor.Components.Thruster;
+using DragonReactor.Components.Virus;
 using DragonReactor.Components.WarpDrive;
 using PulsarPluginLoader.Chat.Commands;
 using PulsarPluginLoader.Utilities;
@@ -52,7 +53,7 @@ namespace DragonReactor
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.HullPlating.DragonHullPlating(0, 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(MissionShipComponentPluginManager.CreateMissionShipComponent(MissionShipComponentPluginManager.Instance.GetMissionShipComponentIDFromName("Dragon MissionShipComponent"), 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.AutoTurret.DragonAutoTurret(0, 0), -1, ESlotType.E_COMP_NONE);
-                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(Components.Virus.VirusPluginManager.CreateVirus(Components.Virus.VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
+                    PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(VirusPluginManager.CreateVirus(VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
                     break;
             }
 
