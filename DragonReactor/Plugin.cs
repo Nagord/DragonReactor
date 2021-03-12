@@ -4,7 +4,7 @@ namespace DragonReactor
 {
     public class Plugin : PulsarPlugin
     {
-        public override string Version => "0.5.1";
+        public override string Version => "0.6.0";
 
         public override string Author => "Dragon";
 

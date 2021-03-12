@@ -55,6 +55,16 @@ namespace DragonReactor
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(new Components.AutoTurret.DragonAutoTurret(0, 0), -1, ESlotType.E_COMP_NONE);
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(VirusPluginManager.CreateVirus(VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
                     break;
+                case "addtoinv":
+                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Pizza", out int Main, out int Sub);
+                    PLNetworkManager.Instance.LocalPlayer.MyInventory.UpdateItem(PLServer.Instance.PawnInvItemIDCounter++, Main, Sub, 0, -1);
+                    break;
+                case "dbg":
+                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Pizza", out Main, out Sub);
+                    PLPawnItem item = Items.ItemPluginManager.CreatePawnItem(Main, Sub, 0);
+                    PLPawnItem.GetPawnInfoFromHash((int)item.getHash(), out uint maintype, out uint subtype, out uint level);
+                    Messaging.Notification($"{maintype}, {subtype}, {level}");
+                    break;
             }
 
             return false;
