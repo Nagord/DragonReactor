@@ -74,6 +74,7 @@ namespace DragonReactor
                     break;
                 case "tdbg":
                     Global.DebugLogging = !Global.DebugLogging;
+                    PLXMLOptionsIO.Instance.CurrentOptions.SetStringValue("DragonReactortdbg", Global.DebugLogging.ToString());
                     break;
             }
 

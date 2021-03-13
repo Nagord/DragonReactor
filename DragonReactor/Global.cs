@@ -1,13 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HarmonyLib;
 
 namespace DragonReactor
 {
     class Global
     {
         public static bool DebugLogging = false;
+    }
+    [HarmonyPatch(typeof(PLServer), "Start")]
+    class loadsettings
+    {
+        static void Postfix()
+        {
+            if (bool.TryParse(PLXMLOptionsIO.Instance.CurrentOptions.GetStringValue("DragonReactortdbg"), out bool a))
+            {
+                Global.DebugLogging = a;
+            }
+            
+        }
     }
 }
