@@ -4,8 +4,6 @@ using PulsarPluginLoader.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Reflection.Emit;
-using static PulsarPluginLoader.Patches.HarmonyHelpers;
 
 namespace DragonReactor.Items
 {
@@ -57,8 +55,8 @@ namespace DragonReactor.Items
         /// <summary>
         /// Finds Item type equivilent to given name and returns MainType ID and SubType ID needed to spawn. Returns -1 if couldn't find Item.
         /// </summary>
-        /// <param name="ItemName"></param>
-        /// <returns></returns>
+        /// <param name="ItemName">modded item's Name set in itemplugin.name</param>
+        /// <returns>Maintype and Subtype</returns>
         public void GetItemIDsFromName(string ItemName, out int MainType, out int SubType)
         {
             MainType = -1;
@@ -72,40 +70,55 @@ namespace DragonReactor.Items
                 }
             }
         }
+        /// <summary>
+        /// Gets MainType and Subtype from modded index (internal thing made public)
+        /// </summary>
+        /// <param name="Index">Modded item index in modlist</param>
+        /// <param name="MainType">MainType calculated from index</param>
+        /// <param name="SubType">Subtype calculated from index</param>
+        /// <returns>Maintype and Subtype</returns>
         public void GetIntsFromIndex(int Index, out int MainType, out int SubType)
         {
-            if (Index > 63)
-            {
-                for (int a = 1; Index - 63 * a > 63; a++)
-                {
-                    if (Index - 63 * a < 63)
-                    {
-                        MainType = a + VanillaItemMaxType;
-                        SubType = Index % 63;
-                        Logger.Info($"Ids {MainType}, {SubType}");
-                        return;
-                    }
-                }
-            }
-            MainType = VanillaItemMaxType;
-            SubType = Index;
+            SubType = Index % 64;
+            MainType = VanillaItemMaxType + ((Index - SubType) / 64);
             Logger.Info($"Ids {MainType}, {SubType}");
             return;
         }
+        /// <summary>
+        /// Creates Vanilla and Modded PLPawnItems
+        /// </summary>
+        /// <param name="Maintype">Maintype</param>
+        /// <param name="Subtype">Subtype</param>
+        /// <param name="level">Level</param>
+        /// <returns>Vanilla or Modded PLPawnItem</returns>
         public static PLPawnItem CreatePawnItem(int Maintype, int Subtype, int level)
         {
             PLPawnItem InItem = null;
+            if (Subtype > 63)
+            {
+                if (Global.DebugLogging)
+                {
+                    Logger.Info("UpdateItem insubtype > 63");
+                }
+                Instance.GetActualMainAndSubTypesFromSubtype(Subtype, out Maintype, out Subtype);
+            }
             if (Maintype >= Instance.VanillaItemMaxType)
             {
-                int MainTypeformodded = (Maintype - Instance.VanillaItemMaxType) * 63 + Subtype;
-                Logger.Info($"MainType for modded is {MainTypeformodded}");
+                int MainTypeformodded = (Maintype - Instance.VanillaItemMaxType) * 64 + Subtype;
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"MainType for modded is {MainTypeformodded}");
+                }
                 if (MainTypeformodded <= Instance.ItemTypes.Count && MainTypeformodded > -1)
                 {
-                    Logger.Info("Creating Item from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating Item from list info");
+                    }
                     ItemPlugin ItemType = Instance.ItemTypes[MainTypeformodded];
                     InItem = ItemType.PLPawnItem;
                     InItem.Level = level;
-                    InItem.SubType = 64 + (MainTypeformodded * 64) + Subtype;
+                    InItem.SubType = 64 + ((Maintype - Instance.VanillaItemMaxType) * 64) + Subtype;
                     Logger.Info($"CreatePawnItem gave item subtype {InItem.SubType}");
                 }
             }
@@ -115,11 +128,23 @@ namespace DragonReactor.Items
             }
             return InItem;
         }
+        /// <summary>
+        /// Used to get actual MainType and Subtype of PLPawnItem from it's cached Subtype. Must be wrapped in an if statement checking for subtype greater than 63
+        /// </summary>
+        /// <param name="InSubType">Subtype greater than 63 ()</param>
+        /// <param name="MainType">Actual Maintype</param>
+        /// <param name="SubType">Actual Subtype</param>
+        /// <returns>Returns Actual Types from bogus subtype. Must be wrapped in an if statement checking for subtype greater than 63</returns>
         public void GetActualMainAndSubTypesFromSubtype(int InSubType, out int MainType, out int SubType)
         {
-            if(InSubType > 63)
+            if (InSubType > 63)
             {
-                ItemPluginManager.Instance.GetIntsFromIndex(InSubType - 64, out MainType, out SubType);
+                SubType = InSubType % 64;
+                MainType = ((InSubType - 64 - SubType) / 64) + Instance.VanillaItemMaxType;
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"in: {InSubType}, out: {MainType} {SubType}");
+                }
             }
             else
             {
@@ -127,98 +152,7 @@ namespace DragonReactor.Items
                 throw new System.NotImplementedException();
             }
         }
-        /*//Change Name, it's not just the specied method. Basically need to find all datablock ussages of UpdateItem and replace the line with this method.
-        public void PLNetManSWFHIDALLIHelper(PawnItemDataBlock pawnItemDataBlock, PLPawnInventoryBase classlockerinv, int NetID) 
-        {
-            if (pawnItemDataBlock.SubType > 63)
-            {
-                Instance.GetIntsFromIndex(pawnItemDataBlock.SubType - 64, out int MainType, out int SubType);
-                //Logger.Info($"GetHash found subtype greater than 63 ({__instance.SubType}). output is {MainType}, {SubType}");
-                classlockerinv.UpdateItem(NetID, MainType, SubType, pawnItemDataBlock.Level, -1);
-            }
-            else
-            {
-                classlockerinv.UpdateItem(NetID, (int)pawnItemDataBlock.ItemType, pawnItemDataBlock.SubType, pawnItemDataBlock.Level, -1);
-            }
-        }*/
-        /*Dictionary<PLPawnItem, int> MainTypeRegistry = new Dictionary<PLPawnItem, int>();
-        /// <summary>
-        /// Registers PawnItem with MainType
-        /// </summary>
-        /// <param name="InPawnItem">PLPawnItem to register</param>
-        /// <param name="InMainType">Maintype of PLPawnItem</param>
-        void RegisterItem(PLPawnItem InPawnItem, int InMainType)
-        {
-            if (!MainTypeRegistry.ContainsKey(InPawnItem))
-            {
-                MainTypeRegistry.Add(InPawnItem, InMainType);
-            }
-        }
-        /// <summary>
-        /// Gets Main Item type from registered PawnItem. If pawn item isn't registered/found, returns 31. (ammo clip)
-        /// </summary>
-        /// <param name="InPawnItem">PLPawnItem To Get Maintype of</param>
-        /// <returns>Returns Main Item Type ID from registered item. If PawnItem isn't registered/found, returns PawnIten.PawnItemType as an int</returns>
-        public int GetItemMainType(PLPawnItem InPawnItem)
-        {
-            if (MainTypeRegistry.ContainsKey(InPawnItem))
-            {
-                return MainTypeRegistry[InPawnItem];
-            }
-            else
-            {
-                return (int)InPawnItem.PawnItemType;
-            }
-        }*/
     }
-    /*[HarmonyPatch(typeof(PLNetworkManager), "ServerWaitForHubIDAndLoadLevel")]
-    class PLNetManSWFHIDALLIPatch
-    {
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            List<CodeInstruction> targetSequence4 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_SubType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_Level")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-            };
-
-            List<CodeInstruction> injectedSequence4 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            return PatchBySequence(instructions, targetSequence4, injectedSequence4, patchMode: PatchMode.REPLACE);
-        }
-    }*/
 
     [HarmonyPatch(typeof(PLPawnItem), "GetPawnInfoFromHash")]
     class GetPawnInfoFromHashPatch
@@ -228,7 +162,6 @@ namespace DragonReactor.Items
             actualSlotTypePart = (uint)(inHash & 63);
             subTypePart = ((uint)inHash >> 6 & 63U);
             levelPart = ((uint)inHash >> 12 & 15U);
-            Logger.Info($"GetPawnInfoFromHash returned {actualSlotTypePart}, {subTypePart}, {levelPart}");
             return false;
         }
     }
@@ -241,10 +174,13 @@ namespace DragonReactor.Items
             uint num2;
             if (__instance.SubType > 63)
             {
-                ItemPluginManager.Instance.GetIntsFromIndex(__instance.SubType - 64, out int MainType, out int SubType);
+                ItemPluginManager.Instance.GetActualMainAndSubTypesFromSubtype(__instance.SubType, out int MainType, out int SubType);
                 num = (uint)(MainType & 63);
                 num2 = (uint)((uint)(SubType & 63) << 6);
-                Logger.Info($"GetHash found subtype greater than 63 ({__instance.SubType}). output is {MainType}, {SubType}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"GetHash found subtype greater than 63 ({__instance.SubType}). output is {MainType}, {SubType}");
+                }
             }
             else
             {
@@ -262,15 +198,7 @@ namespace DragonReactor.Items
         static bool Prefix(int inHash, ref PLPawnItem __result)
         {
             PLPawnItem.GetPawnInfoFromHash(inHash, out uint inType, out uint inSubType, out uint inLevel);
-            /*if((int)inType > 33)
-            {
-                Logger.Info("making modded item from hash");
-            }*/
             __result = ItemPluginManager.CreatePawnItem((int)inType, (int)inSubType, (int)inLevel);
-            /*if ((int)inType > 33)
-            {
-                Logger.Info("should have made modded item from hash");
-            }*/
             return false;
         }
     }
@@ -278,37 +206,6 @@ namespace DragonReactor.Items
     [HarmonyPatch(typeof(PLPawnInventoryBase), "UpdateItem")]
     class UpdateItemPatch
     {
-        /*IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            List<CodeInstruction> targetSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_0),
-                new CodeInstruction(OpCodes.Ldarg_2),
-                new CodeInstruction(OpCodes.Stfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-            };
-
-            List<CodeInstruction> injectedSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_0),
-                new CodeInstruction(OpCodes.Ldarg_2),
-                new CodeInstruction(OpCodes.Ldsfld, AccessTools.Method(typeof(ItemPluginManager), "get_Instance")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(ItemPluginManager), "GetItemMainType"))
-            };
-
-            IEnumerable<CodeInstruction> Modified1st = PatchBySequence(instructions, targetSequence1, injectedSequence1, patchMode: PatchMode.REPLACE);
-
-            List<CodeInstruction> targetSequence2 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldc_R4, 0.0005f),
-            };
-
-            List<CodeInstruction> injectedSequence2 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldsfld, ),
-            };
-
-            return PatchBySequence(Modified1st, targetSequence2, injectedSequence2, patchMode: PatchMode.REPLACE);
-        }*/
         static bool Prefix(PLPawnInventoryBase __instance, int inNetID, int inType, int inSubType, int inLevel, int inEquipID)
         {
             PLPawnItem itemAtNetID = __instance.GetItemAtNetID(inNetID);
@@ -320,10 +217,6 @@ namespace DragonReactor.Items
             }
             else
             {
-                if(inSubType > 63)
-                {
-                    ItemPluginManager.Instance.GetActualMainAndSubTypesFromSubtype(inSubType, out inType, out inSubType);
-                }
                 PLPawnItem plpawnItem = ItemPluginManager.CreatePawnItem(inType, inSubType, inLevel);
                 if (plpawnItem != null)
                 {
@@ -343,164 +236,4 @@ namespace DragonReactor.Items
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLSaveGameIO), "SaveToFile")]
-    class SaveToFilePatch
-    {
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            List<CodeInstruction> targetSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 26),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 26),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_SubType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 26),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_Level")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-            };
-
-            List<CodeInstruction> injectedSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 26),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            IEnumerable<CodeInstruction> Modified1st1 = PatchBySequence(instructions, targetSequence1, injectedSequence1, patchMode: PatchMode.REPLACE);
-
-            List<CodeInstruction> targetSequence2 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 27),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 27),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_SubType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 27),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_Level")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-            };
-
-            List<CodeInstruction> injectedSequence2 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 27),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            IEnumerable<CodeInstruction> Modified1st2 = PatchBySequence(Modified1st1, targetSequence2, injectedSequence2, patchMode: PatchMode.REPLACE);
-
-            List<CodeInstruction> targetSequence3 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 30),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 30),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_SubType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 30),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_Level")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-            };
-
-            List<CodeInstruction> injectedSequence3 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 30),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            IEnumerable<CodeInstruction> Modified1st3 = PatchBySequence(Modified1st1, targetSequence3, injectedSequence3, patchMode: PatchMode.REPLACE);
-
-            List<CodeInstruction> targetSequence4 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPawnItem), "PawnItemType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_SubType")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "get_Level")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(int) })),
-            };
-
-            List<CodeInstruction> injectedSequence4 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 32),
-                new CodeInstruction(OpCodes.Ldfld, AccessTools.Field(typeof(PLPlayer), "MyInventory")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnInventoryBase), "get_AllItems")),
-                new CodeInstruction(OpCodes.Ldloc_S, 37),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(List<PLPawnItem>), "get_Item", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            return PatchBySequence(Modified1st3, targetSequence4, injectedSequence4, patchMode: PatchMode.REPLACE);
-        }
-    }*/
-    /*[HarmonyPatch(typeof(PLSaveGameIO), "LoadFromFile")]
-    class LoadFromFilePatch
-    {
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            List<CodeInstruction> targetSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_S, 24),
-                new CodeInstruction(OpCodes.Ldloc_1),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryReader), "ReadInt32")),
-                new CodeInstruction(OpCodes.Stfld, AccessTools.Field(typeof(PawnItemDataBlock), "ItemType")),
-                new CodeInstruction(OpCodes.Ldloc_S, 24),
-                new CodeInstruction(OpCodes.Ldloc_1),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryReader), "ReadInt32")),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CodeStage.AntiCheat.ObscuredTypes.ObscuredInt), "op_Implicit", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Stfld, AccessTools.Field(typeof(PawnItemDataBlock), "SubType")),
-                new CodeInstruction(OpCodes.Ldloc_S, 24),
-                new CodeInstruction(OpCodes.Ldloc_1),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryReader), "ReadInt32")),
-                new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(CodeStage.AntiCheat.ObscuredTypes.ObscuredInt), "op_Implicit", new Type[] { typeof(int) })),
-                new CodeInstruction(OpCodes.Stfld, AccessTools.Field(typeof(PawnItemDataBlock), "Level")),
-            };
-
-            List<CodeInstruction> injectedSequence1 = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldloc_3),
-                new CodeInstruction(OpCodes.Ldloc_S, 26),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PLPawnItem), "getHash")),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(System.IO.BinaryWriter), "Write", new Type[] { typeof(uint) })),
-            };
-
-            return PatchBySequence(Modified1st3, targetSequence4, injectedSequence4, patchMode: PatchMode.REPLACE);
-        }
-    }*/
 }

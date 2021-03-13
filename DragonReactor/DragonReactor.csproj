@@ -100,8 +100,10 @@
     <Compile Include="Components\Hull\DragonHull.cs" />
     <Compile Include="Components\Hull\HullPlugin.cs" />
     <Compile Include="Components\Hull\HullPluginManager.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Items\ItemPlugin.cs" />
     <Compile Include="Items\ItemPluginManager.cs" />
+    <Compile Include="Items\SlimePawnItem.cs" />
     <Compile Include="Items\PizzaPawnItem.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

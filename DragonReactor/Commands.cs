@@ -56,7 +56,9 @@ namespace DragonReactor
                     PLNetworkManager.Instance.MyLocalPawn.CurrentShip.MyStats.AddShipComponent(VirusPluginManager.CreateVirus(VirusPluginManager.Instance.GetVirusIDFromName("Dragon Virus"), 0), -1, ESlotType.E_COMP_CARGO);
                     break;
                 case "addtoinv":
-                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Pizza", out int Main, out int Sub);
+                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Slime", out int Main, out int Sub);
+                    PLNetworkManager.Instance.LocalPlayer.MyInventory.UpdateItem(PLServer.Instance.PawnInvItemIDCounter++, Main, Sub, 0, -1);
+                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Pizza", out Main, out Sub);
                     PLNetworkManager.Instance.LocalPlayer.MyInventory.UpdateItem(PLServer.Instance.PawnInvItemIDCounter++, Main, Sub, 0, -1);
                     break;
                 case "dbg":
@@ -64,6 +66,14 @@ namespace DragonReactor
                     PLPawnItem item = Items.ItemPluginManager.CreatePawnItem(Main, Sub, 0);
                     PLPawnItem.GetPawnInfoFromHash((int)item.getHash(), out uint maintype, out uint subtype, out uint level);
                     Messaging.Notification($"{maintype}, {subtype}, {level}");
+
+                    Items.ItemPluginManager.Instance.GetItemIDsFromName("Slime", out Main, out Sub);
+                    item = Items.ItemPluginManager.CreatePawnItem(Main, Sub, 0);
+                    PLPawnItem.GetPawnInfoFromHash((int)item.getHash(), out maintype, out subtype, out level);
+                    Messaging.Notification($"{maintype}, {subtype}, {level}");
+                    break;
+                case "tdbg":
+                    Global.DebugLogging = !Global.DebugLogging;
                     break;
             }
 
