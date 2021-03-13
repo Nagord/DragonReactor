@@ -75,10 +75,16 @@ namespace DragonReactor.Components.Hull
             {
                 InHull = new PLHull(EHullType.E_MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaHullMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.HullTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating Hull from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating Hull from list info");
+                    }
                     HullPlugin HullType = Instance.HullTypes[Subtype - Instance.VanillaHullMaxType];
                     InHull.SubType = Subtype;
                     InHull.Name = HullType.Name;

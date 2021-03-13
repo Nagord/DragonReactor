@@ -75,10 +75,16 @@ namespace DragonReactor.Components.Virus
             {
                 InVirus = new PLVirus(EVirusType.NONE, level);
                 int subtypeformodded = Subtype - Instance.VanillaVirusMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.VirusTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating Virus from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating Virus from list info");
+                    }
                     VirusPlugin VirusType = Instance.VirusTypes[Subtype - Instance.VanillaVirusMaxType];
                     InVirus.SubType = Subtype;
                     InVirus.Name = VirusType.Name;

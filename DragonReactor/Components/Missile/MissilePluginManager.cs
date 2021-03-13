@@ -75,10 +75,16 @@ namespace DragonReactor.Components.Missile
             {
                 InMissile = new PLTrackerMissile(ETrackerMissileType.MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaMissileMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.MissileTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating Missile from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating Missile from list info");
+                    }
                     MissilePlugin MissileType = Instance.MissileTypes[Subtype - Instance.VanillaMissileMaxType];
                     InMissile.SubType = Subtype;
                     InMissile.Name = MissileType.Name;

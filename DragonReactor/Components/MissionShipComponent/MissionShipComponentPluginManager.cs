@@ -75,10 +75,16 @@ namespace DragonReactor.Components.MissionShipComponent
             {
                 InMissionShipComponent = new PLMissionShipComponent(0, level);
                 int subtypeformodded = Subtype - Instance.VanillaMissionShipComponentMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.MissionShipComponentTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating MissionShipComponent from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating MissionShipComponent from list info");
+                    }
                     MissionShipComponentPlugin MissionShipComponentType = Instance.MissionShipComponentTypes[Subtype - Instance.VanillaMissionShipComponentMaxType];
                     InMissionShipComponent.SubType = Subtype;
                     InMissionShipComponent.Name = MissionShipComponentType.Name;

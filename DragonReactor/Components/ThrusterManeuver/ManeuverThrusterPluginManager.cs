@@ -75,10 +75,16 @@ namespace DragonReactor.Components.ManeuverThruster
             {
                 InManeuverThruster = new PLManeuverThruster(EManeuverThrusterType.E_MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaManeuverThrusterMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.ManeuverThrusterTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating ManeuverThruster from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating ManeuverThruster from list info");
+                    }
                     ManeuverThrusterPlugin ManeuverThrusterType = Instance.ManeuverThrusterTypes[Subtype - Instance.VanillaManeuverThrusterMaxType];
                     InManeuverThruster.SubType = Subtype;
                     InManeuverThruster.Name = ManeuverThrusterType.Name;

@@ -75,10 +75,16 @@ namespace DragonReactor.Components.WarpDrive
             {
                 InWarpDrive = new PLWarpDrive(EWarpDriveType.E_MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaWarpDriveMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.WarpDriveTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating WarpDrive from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating WarpDrive from list info");
+                    }
                     WarpDrivePlugin WarpDriveType = Instance.WarpDriveTypes[Subtype - Instance.VanillaWarpDriveMaxType];
                     InWarpDrive.SubType = Subtype;
                     InWarpDrive.Name = WarpDriveType.Name;

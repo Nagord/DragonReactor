@@ -75,10 +75,16 @@ namespace DragonReactor.Components.Thruster
             {
                 InThruster = new PLThruster(EThrusterType.MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaThrusterMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.ThrusterTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating Thruster from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating Thruster from list info");
+                    }
                     ThrusterPlugin ThrusterType = Instance.ThrusterTypes[Subtype - Instance.VanillaThrusterMaxType];
                     InThruster.SubType = Subtype;
                     InThruster.Name = ThrusterType.Name;

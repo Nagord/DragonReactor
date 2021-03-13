@@ -75,10 +75,16 @@ namespace DragonReactor.Components.InertiaThruster
             {
                 InInertiaThruster = new PLInertiaThruster(EInertiaThrusterType.E_MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaInertiaThrusterMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.InertiaThrusterTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating InertiaThruster from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating InertiaThruster from list info");
+                    }
                     InertiaThrusterPlugin InertiaThrusterType = Instance.InertiaThrusterTypes[Subtype - Instance.VanillaInertiaThrusterMaxType];
                     InInertiaThruster.SubType = Subtype;
                     InInertiaThruster.Name = InertiaThrusterType.Name;

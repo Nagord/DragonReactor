@@ -75,10 +75,16 @@ namespace DragonReactor.Components.NuclearDevice
             {
                 InNuclearDevice = new PLNuclearDevice(ENuclearDeviceType.MAX, level);
                 int subtypeformodded = Subtype - Instance.VanillaNuclearDeviceMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
+                if (Global.DebugLogging)
+                {
+                    Logger.Info($"Subtype for modded is {subtypeformodded}");
+                }
                 if (subtypeformodded <= Instance.NuclearDeviceTypes.Count && subtypeformodded > -1)
                 {
-                    Logger.Info("Creating NuclearDevice from list info");
+                    if (Global.DebugLogging)
+                    {
+                        Logger.Info("Creating NuclearDevice from list info");
+                    }
                     NuclearDevicePlugin NuclearDeviceType = Instance.NuclearDeviceTypes[Subtype - Instance.VanillaNuclearDeviceMaxType];
                     InNuclearDevice.SubType = Subtype;
                     InNuclearDevice.Name = NuclearDeviceType.Name;
