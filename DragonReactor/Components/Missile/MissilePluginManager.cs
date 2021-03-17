@@ -68,12 +68,12 @@ namespace DragonReactor.Components.Missile
             }
             return -1;
         }
-        public static PLTrackerMissile CreateMissile(int Subtype, int level)
+        public static PLTrackerMissile CreateMissile(int Subtype, int level, int inSubTypeData = 0)
         {
             PLTrackerMissile InMissile;
             if (Subtype >= Instance.VanillaMissileMaxType)
             {
-                InMissile = new PLTrackerMissile(ETrackerMissileType.MAX, level);
+                InMissile = new PLTrackerMissile(ETrackerMissileType.MAX, level, inSubTypeData);
                 int subtypeformodded = Subtype - Instance.VanillaMissileMaxType;
                 if (Global.DebugLogging)
                 {
@@ -102,11 +102,15 @@ namespace DragonReactor.Components.Missile
                     InMissile.Experimental = MissileType.Experimental;
                     InMissile.Unstable = MissileType.Unstable;
                     InMissile.Contraband = MissileType.Contraband;
+                    if (PhotonNetwork.isMasterClient)
+                    {
+                        InMissile.SubTypeData = (short)InMissile.AmmoCapacity;
+                    }
                 }
             }
             else
             {
-                InMissile = new PLTrackerMissile((ETrackerMissileType)Subtype, level);
+                InMissile = new PLTrackerMissile((ETrackerMissileType)Subtype, level, inSubTypeData);
             }
             return InMissile;
         }
@@ -115,9 +119,9 @@ namespace DragonReactor.Components.Missile
     [HarmonyPatch(typeof(PLTrackerMissile), "CreateTrackerMissileFromHash")]
     class MissileHashFix
     {
-        static bool Prefix(int inSubType, int inLevel, ref PLShipComponent __result)
+        static bool Prefix(int inSubType, int inLevel, int inSubTypeData, ref PLShipComponent __result)
         {
-            __result = MissilePluginManager.CreateMissile(inSubType, inLevel);
+            __result = MissilePluginManager.CreateMissile(inSubType, inLevel, inSubTypeData);
             return false;
         }
     }
