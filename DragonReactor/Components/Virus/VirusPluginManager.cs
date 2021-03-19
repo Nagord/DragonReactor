@@ -127,16 +127,4 @@ namespace DragonReactor.Components.Virus
             }
         }
     }
-    [HarmonyPatch(typeof(PLVirus), "Update")]
-    class VirusUpdatePatch
-    {
-        static void Prefix(PLVirus __instance)
-        {
-            int subtypeformodded = __instance.SubType - VirusPluginManager.Instance.VanillaVirusMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < VirusPluginManager.Instance.VirusTypes.Count)
-            {
-                VirusPluginManager.Instance.VirusTypes[subtypeformodded].Update(__instance);
-            }
-        }
-    }
 }

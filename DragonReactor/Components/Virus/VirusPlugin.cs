@@ -51,9 +51,5 @@ namespace DragonReactor.Components.Virus
         {
             
         }
-        public virtual void Update(PLVirus InVirus)
-        {
-
-        }
     }
 }
