@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Components.MegaTurret
+﻿namespace ContentMod.Components.MegaTurret
 {
     public abstract class MegaTurretPlugin
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.HullPlating
+namespace ContentMod.Components.HullPlating
 {
     public class HullPlatingPluginManager
     {
@@ -67,25 +67,6 @@ namespace DragonReactor.Components.HullPlating
             }
             return -1;
         }
-        /*public static PLShipComponent CreateHullPlating(int Subtype, int level)
-        {
-            PLShipComponent InHullPlating;
-            if (Subtype >= Instance.VanillaHullPlatingMaxType)
-            {
-                InHullPlating = new PLHullPlating(level);
-                int subtypeformodded = Subtype - Instance.VanillaHullPlatingMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
-                if (subtypeformodded <= Instance.HullPlatingTypes.Count && subtypeformodded > -1)
-                {
-                    Logger.Info("Creating HullPlating from list info");
-                }
-            }
-            else
-            {
-                InHullPlating = new PLHullPlating(level);
-            }
-            return InHullPlating;
-        }*/
     }
     //Converts hashes to HullPlatings.
     [HarmonyPatch(typeof(PLHullPlating), "CreateHullPlatingFromHash")]

@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.WarpDriveProgram
+namespace ContentMod.Components.WarpDriveProgram
 {
-    public abstract class WarpDriveProgramPlugin
+    public abstract class WarpDriveProgramPlugin : ComponentPluginBase
     {
         public WarpDriveProgramPlugin()
         {
-        }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
         }
         public virtual int MaxLevelCharges
         {
@@ -35,37 +27,9 @@ namespace DragonReactor.Components.WarpDriveProgram
         {
             get { return 15f; }
         }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return PLGlobal.Instance.ProgramBGTexture;  }
-        }
-        public virtual int MarketPrice
-        {
-            get { return 1500; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 36; }
-        }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
-        }
-        public virtual void FinalLateAddStats(PLWarpDriveProgram InWarpDriveProgram)
-        {
-            
         }
         public virtual void Execute(PLWarpDriveProgram InWarpDriveProgram)
         {

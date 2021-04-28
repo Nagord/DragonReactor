@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Components.HullPlating
+﻿namespace ContentMod.Components.HullPlating
 {
     public abstract class HullPlatingPlugin
     {

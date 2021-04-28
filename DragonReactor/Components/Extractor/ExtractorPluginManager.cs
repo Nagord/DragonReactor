@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.Extractor
+namespace ContentMod.Components.Extractor
 {
     public class ExtractorPluginManager
     {

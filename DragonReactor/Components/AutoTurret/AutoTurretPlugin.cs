@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Components.AutoTurret
+﻿namespace ContentMod.Components.AutoTurret
 {
     public abstract class AutoTurretPlugin
     {

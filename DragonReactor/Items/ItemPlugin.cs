@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Items
+﻿namespace ContentMod.Items
 {
     public abstract class ItemPlugin
     {

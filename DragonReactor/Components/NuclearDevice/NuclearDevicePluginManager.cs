@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.NuclearDevice
+namespace ContentMod.Components.NuclearDevice
 {
     public class NuclearDevicePluginManager
     {

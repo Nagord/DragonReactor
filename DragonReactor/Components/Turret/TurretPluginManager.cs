@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.Turret
+namespace ContentMod.Components.Turret
 {
     public class TurretPluginManager
     {

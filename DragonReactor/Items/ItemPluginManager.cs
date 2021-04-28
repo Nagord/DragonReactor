@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DragonReactor.Items
+namespace ContentMod.Items
 {
-    class ItemPluginManager
+    public class ItemPluginManager
     {
         public readonly int VanillaItemMaxType = 0;
         private static ItemPluginManager m_instance = null;

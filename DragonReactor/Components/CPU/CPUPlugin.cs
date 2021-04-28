@@ -1,19 +1,11 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.CPU
+namespace ContentMod.Components.CPU
 {
-    public abstract class CPUPlugin
+    public abstract class CPUPlugin : ComponentPluginBase
     {
         public CPUPlugin()
         {
-        }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
         }
         public virtual float Speed
         {
@@ -23,7 +15,7 @@ namespace DragonReactor.Components.CPU
         {
             get { return .1f; }
         }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return (Texture2D)Resources.Load("Icons/62_Processer");  }
         }
@@ -31,18 +23,9 @@ namespace DragonReactor.Components.CPU
         {
             get { return -1; }
         }
-        
-        public virtual int MarketPrice
-        {
-            get { return 1200; }
-        }
         public virtual float MaxPowerUsage_Watts
         {
             get { return 1f; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 1; }
         }
         public virtual int MaxCompUpgradeLevelBoost
         {
@@ -52,45 +35,9 @@ namespace DragonReactor.Components.CPU
         {
             get { return 0; }
         }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
-        }
-        public virtual void FinalLateAddStats(PLCPU InCPU)
-        {
-            
-        }
-        public virtual void AddStats(PLCPU InCPU)
+        public virtual void WhenProgramIsRun(PLWarpDriveProgram InProgram)
         {
 
-        }
-        public virtual void Tick(PLCPU InCPU)
-        {
-
-        }
-        public virtual void WhenProgramIsRun(PLWarpDriveProgram inProgram)
-        {
-
-        }
-        public virtual string GetStatLineRight(PLCPU InCPU)
-        {
-            return "";
-        }
-        public virtual string GetStatLineLeft(PLCPU InCPU)
-        {
-            return "";
         }
     }
 }

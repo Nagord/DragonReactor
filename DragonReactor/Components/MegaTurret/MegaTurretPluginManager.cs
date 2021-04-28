@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.MegaTurret
+namespace ContentMod.Components.MegaTurret
 {
     public class MegaTurretPluginManager
     {
@@ -67,25 +67,6 @@ namespace DragonReactor.Components.MegaTurret
             }
             return -1;
         }
-        /*public static PLShipComponent CreateMegaTurret(int Subtype, int level)
-        {
-            PLShipComponent InMegaTurret;
-            if (Subtype >= Instance.VanillaMegaTurretMaxType)
-            {
-                InMegaTurret = new PLMegaTurret(level);
-                int subtypeformodded = Subtype - Instance.VanillaMegaTurretMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
-                if (subtypeformodded <= Instance.MegaTurretTypes.Count && subtypeformodded > -1)
-                {
-                    Logger.Info("Creating MegaTurret from list info");
-                }
-            }
-            else
-            {
-                InMegaTurret = new PLMegaTurret(level);
-            }
-            return InMegaTurret;
-        }*/
     }
     //Converts hashes to MegaTurrets.
     [HarmonyPatch(typeof(PLMegaTurret), "CreateMainTurretFromHash")]
@@ -104,16 +85,4 @@ namespace DragonReactor.Components.MegaTurret
             return true;
         }
     }
-    /*[HarmonyPatch(typeof(PLMegaTurret), "LateAddStats")]
-    class MegaTurretLateAddStatsPatch
-    {
-        static void Postfix(PLShipStats inStats, PLMegaTurret __instance)
-        {
-            int subtypeformodded = __instance.SubType - MegaTurretPluginManager.Instance.VanillaMegaTurretMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < MegaTurretPluginManager.Instance.MegaTurretTypes.Count && inStats != null)
-            {
-                MegaTurretPluginManager.Instance.MegaTurretTypes[subtypeformodded].LateAddStats(inStats);
-            }
-        }
-    }*/
 }

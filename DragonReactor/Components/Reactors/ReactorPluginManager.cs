@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DragonReactor.Components.Reactor
+namespace ContentMod.Components.Reactor
 {
     public class ReactorPluginManager
     {
@@ -129,7 +129,7 @@ namespace DragonReactor.Components.Reactor
             int subtypeformodded = __instance.SubType - ReactorPluginManager.Instance.VanillaReactorMaxType;
             if (subtypeformodded > -1 && subtypeformodded < ReactorPluginManager.Instance.ReactorTypes.Count && __instance.ShipStats != null && __instance.ShipStats.ReactorTempMax != 0f)
             {
-                ReactorPluginManager.Instance.ReactorTypes[subtypeformodded].ReactorPowerCode(__instance);
+                ReactorPluginManager.Instance.ReactorTypes[subtypeformodded].Tick(__instance);
             }
         }
     }

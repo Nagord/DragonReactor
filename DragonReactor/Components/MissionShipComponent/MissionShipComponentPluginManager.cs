@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.MissionShipComponent
+namespace ContentMod.Components.MissionShipComponent
 {
     public class MissionShipComponentPluginManager
     {

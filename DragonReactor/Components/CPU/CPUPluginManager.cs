@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.CPU
+namespace ContentMod.Components.CPU
 {
     public class CPUPluginManager
     {

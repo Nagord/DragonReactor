@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace DragonReactor
+namespace ContentMod
 {
     class Global
     {
@@ -15,7 +15,6 @@ namespace DragonReactor
             {
                 Global.DebugLogging = a;
             }
-            
         }
     }
 }

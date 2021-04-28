@@ -1,21 +1,13 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.Shield
+namespace ContentMod.Components.Shield
 {
-    public abstract class ShieldPlugin
+    public abstract class ShieldPlugin : ComponentPluginBase
     {
         public ShieldPlugin()
         {
         }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
-        }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return (Texture2D)Resources.Load("Icons/39_Sheilds"); }
         }
@@ -46,30 +38,6 @@ namespace DragonReactor.Components.Shield
         public virtual int MinIntegrityAfterDamage
         {
             get { return -1; }
-        }
-        public virtual int MarketPrice
-        {
-            get { return 1200; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 39; }
-        }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
         }
     }
 }

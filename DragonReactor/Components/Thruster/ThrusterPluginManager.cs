@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.Thruster
+namespace ContentMod.Components.Thruster
 {
-    class ThrusterPluginManager
+    public class ThrusterPluginManager
     {
         public readonly int VanillaThrusterMaxType = 0;
         private static ThrusterPluginManager m_instance = null;

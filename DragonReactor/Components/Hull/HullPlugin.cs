@@ -1,21 +1,13 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.Hull
+namespace ContentMod.Components.Hull
 {
-    public abstract class HullPlugin
+    public abstract class HullPlugin : ComponentPluginBase
     {
         public HullPlugin()
         {
         }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
-        }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return (Texture2D)Resources.Load("Icons/20_Hull"); }
         }
@@ -30,30 +22,6 @@ namespace DragonReactor.Components.Hull
         public virtual float Defense
         {
             get { return .2f; }
-        }
-        public virtual int MarketPrice
-        {
-            get { return 1550; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 1; }
-        }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
         }
     }
 }

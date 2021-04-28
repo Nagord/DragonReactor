@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.CaptainsChair
+namespace ContentMod.Components.CaptainsChair
 {
     public class CaptainsChairPluginManager
     {
@@ -123,7 +123,7 @@ namespace DragonReactor.Components.CaptainsChair
             int subtypeformodded = __instance.SubType - CaptainsChairPluginManager.Instance.VanillaCaptainsChairMaxType;
             if (subtypeformodded > -1 && subtypeformodded < CaptainsChairPluginManager.Instance.CaptainsChairTypes.Count && inStats != null)
             {
-                CaptainsChairPluginManager.Instance.CaptainsChairTypes[subtypeformodded].LateAddStats(inStats);
+                CaptainsChairPluginManager.Instance.CaptainsChairTypes[subtypeformodded].LateAddStats(__instance);
             }
         }
     }

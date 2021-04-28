@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.Hull
+namespace ContentMod.Components.Hull
 {
     public class HullPluginManager
     {
@@ -120,16 +120,4 @@ namespace DragonReactor.Components.Hull
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLShieldGenerator), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLShieldGenerator __instance)
-        {
-            int subtypeformodded = __instance.SubType - ShieldPluginManager.Instance.VanillaShieldMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < ShieldPluginManager.Instance.ShieldTypes.Count && __instance.ShipStats != null && __instance.ShipStats.ShieldTempMax != 0f)
-            {
-                ShieldPluginManager.Instance.ShieldTypes[subtypeformodded].ShieldPowerCode(__instance);
-            }
-        }
-    }*/
 }

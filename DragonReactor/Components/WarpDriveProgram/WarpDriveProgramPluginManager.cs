@@ -8,7 +8,7 @@ using System.Reflection;
 using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.WarpDriveProgram
+namespace ContentMod.Components.WarpDriveProgram
 {
     public class WarpDriveProgramPluginManager
     {
@@ -199,6 +199,7 @@ namespace DragonReactor.Components.WarpDriveProgram
             if (!ship.VirusSendQueue.ForwardDictionary.ContainsKey(sendQueueID))
             {
                 PLVirus plvirus = Virus.VirusPluginManager.CreateVirus(virusType, 0);
+                plvirus.NetID = -1;
                 plvirus.InitialTime = serverTime;
                 ship.VirusSendQueue.Add(sendQueueID, plvirus);
                 plvirus.Sender = ship;

@@ -1,21 +1,13 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.Reactor
+namespace ContentMod.Components.Reactor
 {
-    public abstract class ReactorPlugin
+    public abstract class ReactorPlugin : ComponentPluginBase
     {
         public ReactorPlugin()
         {
         }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
-        }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return (Texture2D)Resources.Load("Icons/28_Reactor"); }
         }
@@ -38,33 +30,6 @@ namespace DragonReactor.Components.Reactor
         public virtual float HeatOutput
         {
             get { return 1f; }
-        }
-        public virtual int MarketPrice
-        {
-            get { return 2100; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 11; }
-        }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
-        }
-        public virtual void ReactorPowerCode(PLReactor ReactorInstance)
-        {
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEngine;
 using Logger = PulsarPluginLoader.Utilities.Logger;
 
-namespace DragonReactor.Components.Shield
+namespace ContentMod.Components.Shield
 {
     public class ShieldPluginManager
     {

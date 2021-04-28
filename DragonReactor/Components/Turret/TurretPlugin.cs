@@ -1,4 +1,4 @@
-﻿namespace DragonReactor.Components.Turret
+﻿namespace ContentMod.Components.Turret
 {
     public abstract class TurretPlugin
     {

@@ -1,21 +1,13 @@
 ﻿using UnityEngine;
 
-namespace DragonReactor.Components.NuclearDevice
+namespace ContentMod.Components.NuclearDevice
 {
-    public abstract class NuclearDevicePlugin
+    public abstract class NuclearDevicePlugin : ComponentPluginBase
     {
         public NuclearDevicePlugin()
         {
         }
-        public virtual string Name
-        {
-            get { return ""; }
-        }
-        public virtual string Description
-        {
-            get { return ""; }
-        }
-        public virtual Texture2D IconTexture
+        public override Texture2D IconTexture
         {
             get { return (Texture2D)Resources.Load("Icons/80_Thrusters"); }
         }
@@ -42,30 +34,6 @@ namespace DragonReactor.Components.NuclearDevice
         public virtual float Health
         {
             get { return 200f; }
-        }
-        public virtual int MarketPrice
-        {
-            get { return 6750; }
-        }
-        public virtual int CargoVisualID
-        {
-            get { return 15; }
-        }
-        public virtual bool CanBeDroppedOnShipDeath
-        {
-            get { return true; }
-        }
-        public virtual bool Experimental
-        {
-            get { return false; }
-        }
-        public virtual bool Unstable
-        {
-            get { return false; }
-        }
-        public virtual bool Contraband
-        {
-            get { return false; }
         }
     }
 }
