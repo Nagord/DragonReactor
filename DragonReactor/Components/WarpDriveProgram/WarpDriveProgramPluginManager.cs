@@ -57,8 +57,8 @@ namespace ContentMod.Components.WarpDriveProgram
         /// <summary>
         /// Finds WarpDriveProgram type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find WarpDriveProgram.
         /// </summary>
-        /// <param name="WarpDriveProgramName"></param>
-        /// <returns></returns>
+        /// <param name="WarpDriveProgramName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetWarpDriveProgramIDFromName(string WarpDriveProgramName)
         {
             for (int i = 0; i < WarpDriveProgramTypes.Count; i++)
@@ -101,7 +101,8 @@ namespace ContentMod.Components.WarpDriveProgram
                     InWarpDriveProgram.Experimental = WarpDriveProgramType.Experimental;
                     InWarpDriveProgram.Unstable = WarpDriveProgramType.Unstable;
                     InWarpDriveProgram.Contraband = WarpDriveProgramType.Contraband;
-                    if(PhotonNetwork.isMasterClient)
+                    InWarpDriveProgram.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InWarpDriveProgram, (ObscuredFloat)WarpDriveProgramType.Price_LevelMultiplierExponent);
+                    if (PhotonNetwork.isMasterClient)
                     {
                         InWarpDriveProgram.Level = InWarpDriveProgram.MaxLevelCharges;
                     }
@@ -165,20 +166,6 @@ namespace ContentMod.Components.WarpDriveProgram
     [HarmonyPatch(typeof(PLServer), "AddToSendQueue")]
     class WarpDriveProgramAddToSendQueuePatch
     {
-        /*static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            List<CodeInstruction> targetSequence = new List<CodeInstruction>()
-            {
-                new CodeInstruction(OpCodes.Ldc_I4_0),
-                new CodeInstruction(OpCodes.Newobj),
-            };
-            List<CodeInstruction> injectedSequence = new List<CodeInstruction>()
-            {
-                //new CodeInstruction(OpCodes.Ldc_I4_0),
-                new CodeInstruction(OpCodes.Call, typeof(Virus.VirusPluginManager).GetMethod("CreateVirus")),
-            };
-            return PatchBySequence(instructions, targetSequence, injectedSequence, PatchMode.REPLACE, CheckMode.NONNULL);
-        }*/
         static bool Prefix(int shipID, int sendQueueID, int virusType, int serverTime)
         {
             Debug.Log("AddToSendQueue: shipID-" + shipID.ToString() + "   sendQueueID-" + sendQueueID.ToString());

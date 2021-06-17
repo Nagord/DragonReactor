@@ -55,8 +55,8 @@ namespace ContentMod.Components.InertiaThruster
         /// <summary>
         /// Finds InertiaThruster type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find InertiaThruster.
         /// </summary>
-        /// <param name="InertiaThrusterName"></param>
-        /// <returns></returns>
+        /// <param name="InertiaThrusterName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetInertiaThrusterIDFromName(string InertiaThrusterName)
         {
             for (int i = 0; i < InertiaThrusterTypes.Count; i++)
@@ -99,6 +99,7 @@ namespace ContentMod.Components.InertiaThruster
                     InInertiaThruster.Unstable = InertiaThrusterType.Unstable;
                     InInertiaThruster.Contraband = InertiaThrusterType.Contraband;
                     InInertiaThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InInertiaThruster, new object[0]);
+                    InInertiaThruster.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InInertiaThruster, (ObscuredFloat)InertiaThrusterType.Price_LevelMultiplierExponent);
                 }
             }
             else
@@ -118,16 +119,4 @@ namespace ContentMod.Components.InertiaThruster
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLInertiaThruster), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLInertiaThruster __instance)
-        {
-            int subtypeformodded = __instance.SubType - InertiaThrusterPluginManager.Instance.VanillaInertiaThrusterMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < InertiaThrusterPluginManager.Instance.InertiaThrusterTypes.Count && __instance.ShipStats != null && __instance.ShipStats.InertiaThrusterTempMax != 0f)
-            {
-                InertiaThrusterPluginManager.Instance.InertiaThrusterTypes[subtypeformodded].InertiaThrusterPowerCode(__instance);
-            }
-        }
-    }*/
 }

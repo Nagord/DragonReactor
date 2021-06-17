@@ -54,8 +54,8 @@ namespace ContentMod.Components.HullPlating
         /// <summary>
         /// Finds HullPlating type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find HullPlating.
         /// </summary>
-        /// <param name="HullPlatingName"></param>
-        /// <returns></returns>
+        /// <param name="HullPlatingName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetHullPlatingIDFromName(string HullPlatingName)
         {
             for (int i = 0; i < HullPlatingTypes.Count; i++)

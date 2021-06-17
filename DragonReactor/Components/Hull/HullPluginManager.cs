@@ -55,8 +55,8 @@ namespace ContentMod.Components.Hull
         /// <summary>
         /// Finds Hull type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Hull.
         /// </summary>
-        /// <param name="HullName"></param>
-        /// <returns></returns>
+        /// <param name="HullName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetHullIDFromName(string HullName)
         {
             for (int i = 0; i < HullTypes.Count; i++)
@@ -99,6 +99,7 @@ namespace ContentMod.Components.Hull
                     InHull.Experimental = HullType.Experimental;
                     InHull.Unstable = HullType.Unstable;
                     InHull.Contraband = HullType.Contraband;
+                    InHull.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InHull, (ObscuredFloat)HullType.Price_LevelMultiplierExponent);
                     InHull.Max *= 2f;
                     InHull.Current = InHull.Max;
                 }

@@ -54,8 +54,8 @@ namespace ContentMod.Components.Turret
         /// <summary>
         /// Finds Turret type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Turret.
         /// </summary>
-        /// <param name="TurretName"></param>
-        /// <returns></returns>
+        /// <param name="TurretName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetTurretIDFromName(string TurretName)
         {
             for (int i = 0; i < TurretTypes.Count; i++)
@@ -67,25 +67,6 @@ namespace ContentMod.Components.Turret
             }
             return -1;
         }
-        /*public static PLShipComponent CreateTurret(int Subtype, int level)
-        {
-            PLShipComponent InTurret;
-            if (Subtype >= Instance.VanillaTurretMaxType)
-            {
-                InTurret = new PLTurret(level);
-                int subtypeformodded = Subtype - Instance.VanillaTurretMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
-                if (subtypeformodded <= Instance.TurretTypes.Count && subtypeformodded > -1)
-                {
-                    Logger.Info("Creating Turret from list info");
-                }
-            }
-            else
-            {
-                InTurret = new PLTurret(level);
-            }
-            return InTurret;
-        }*/
     }
     //Converts hashes to Turrets.
     [HarmonyPatch(typeof(PLTurret), "CreateTurretFromHash")]

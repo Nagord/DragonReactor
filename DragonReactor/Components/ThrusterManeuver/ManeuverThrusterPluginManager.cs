@@ -55,8 +55,8 @@ namespace ContentMod.Components.ManeuverThruster
         /// <summary>
         /// Finds ManeuverThruster type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find ManeuverThruster.
         /// </summary>
-        /// <param name="ManeuverThrusterName"></param>
-        /// <returns></returns>
+        /// <param name="ManeuverThrusterName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetManeuverThrusterIDFromName(string ManeuverThrusterName)
         {
             for (int i = 0; i < ManeuverThrusterTypes.Count; i++)
@@ -99,6 +99,7 @@ namespace ContentMod.Components.ManeuverThruster
                     InManeuverThruster.Unstable = ManeuverThrusterType.Unstable;
                     InManeuverThruster.Contraband = ManeuverThrusterType.Contraband;
                     InManeuverThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InManeuverThruster, new object[0]);
+                    InManeuverThruster.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InManeuverThruster, (ObscuredFloat)ManeuverThrusterType.Price_LevelMultiplierExponent);
                 }
             }
             else
@@ -118,16 +119,4 @@ namespace ContentMod.Components.ManeuverThruster
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLManeuverThruster), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLManeuverThruster __instance)
-        {
-            int subtypeformodded = __instance.SubType - ManeuverThrusterPluginManager.Instance.VanillaManeuverThrusterMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < ManeuverThrusterPluginManager.Instance.ManeuverThrusterTypes.Count && __instance.ShipStats != null && __instance.ShipStats.ManeuverThrusterTempMax != 0f)
-            {
-                ManeuverThrusterPluginManager.Instance.ManeuverThrusterTypes[subtypeformodded].ManeuverThrusterPowerCode(__instance);
-            }
-        }
-    }*/
 }

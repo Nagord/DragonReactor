@@ -55,8 +55,8 @@ namespace ContentMod.Components.Reactor
         /// <summary>
         /// Finds reactor type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find reactor.
         /// </summary>
-        /// <param name="ReactorName"></param>
-        /// <returns></returns>
+        /// <param name="ReactorName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetReactorIDFromName(string ReactorName)
         {
             for (int i = 0; i < ReactorTypes.Count; i++)
@@ -102,6 +102,7 @@ namespace ContentMod.Components.Reactor
                     InReactor.Unstable = ReactorType.Unstable;
                     InReactor.Contraband = ReactorType.Contraband;
                     InReactor.GetType().GetField("OriginalEnergyOutputMax", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, InReactor.EnergyOutputMax);
+                    InReactor.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InReactor, (ObscuredFloat)ReactorType.Price_LevelMultiplierExponent);
                 }
             }
             else

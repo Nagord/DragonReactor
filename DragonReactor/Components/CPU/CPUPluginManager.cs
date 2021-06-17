@@ -55,8 +55,8 @@ namespace ContentMod.Components.CPU
         /// <summary>
         /// Finds CPU type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find CPU.
         /// </summary>
-        /// <param name="CPUName"></param>
-        /// <returns></returns>
+        /// <param name="CPUName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetCPUIDFromName(string CPUName)
         {
             for (int i = 0; i < CPUTypes.Count; i++)
@@ -101,6 +101,7 @@ namespace ContentMod.Components.CPU
                     InCPU.GetType().GetField("m_Defense", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCPU, CPUType.Defense);
                     InCPU.GetType().GetField("m_MaxCompUpgradeLevelBoost", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCPU, CPUType.MaxCompUpgradeLevelBoost);
                     InCPU.GetType().GetField("m_MaxPawnItemUpgradeLevelBoost", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCPU, CPUType.MaxItemUpgradeLevelBoost);
+                    InCPU.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCPU, (ObscuredFloat)CPUType.Price_LevelMultiplierExponent);
                 }
             }
             else

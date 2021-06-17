@@ -55,8 +55,8 @@ namespace ContentMod.Components.Extractor
         /// <summary>
         /// Finds Extractor type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Extractor.
         /// </summary>
-        /// <param name="ExtractorName"></param>
-        /// <returns></returns>
+        /// <param name="ExtractorName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetExtractorIDFromName(string ExtractorName)
         {
             for (int i = 0; i < ExtractorTypes.Count; i++)
@@ -97,6 +97,7 @@ namespace ContentMod.Components.Extractor
                     InExtractor.Experimental = ExtractorType.Experimental;
                     InExtractor.Unstable = ExtractorType.Unstable;
                     InExtractor.Contraband = ExtractorType.Contraband;
+                    InExtractor.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InExtractor, (ObscuredFloat)ExtractorType.Price_LevelMultiplierExponent);
                 }
             }
             else

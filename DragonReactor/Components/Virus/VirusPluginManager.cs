@@ -55,8 +55,8 @@ namespace ContentMod.Components.Virus
         /// <summary>
         /// Finds Virus type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Virus.
         /// </summary>
-        /// <param name="VirusName"></param>
-        /// <returns></returns>
+        /// <param name="VirusName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetVirusIDFromName(string VirusName)
         {
             for (int i = 0; i < VirusTypes.Count; i++)
@@ -96,6 +96,7 @@ namespace ContentMod.Components.Virus
                     InVirus.Experimental = VirusType.Experimental;
                     InVirus.Unstable = VirusType.Unstable;
                     InVirus.Contraband = VirusType.Contraband;
+                    InVirus.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InVirus, (ObscuredFloat)VirusType.Price_LevelMultiplierExponent);
                 }
             }
             else

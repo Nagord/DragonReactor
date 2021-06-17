@@ -55,8 +55,8 @@ namespace ContentMod.Components.NuclearDevice
         /// <summary>
         /// Finds NuclearDevice type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find NuclearDevice.
         /// </summary>
-        /// <param name="NuclearDeviceName"></param>
-        /// <returns></returns>
+        /// <param name="NuclearDeviceName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetNuclearDeviceIDFromName(string NuclearDeviceName)
         {
             for (int i = 0; i < NuclearDeviceTypes.Count; i++)
@@ -103,6 +103,7 @@ namespace ContentMod.Components.NuclearDevice
                     InNuclearDevice.Experimental = NuclearDeviceType.Experimental;
                     InNuclearDevice.Unstable = NuclearDeviceType.Unstable;
                     InNuclearDevice.Contraband = NuclearDeviceType.Contraband;
+                    InNuclearDevice.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InNuclearDevice, (ObscuredFloat)NuclearDeviceType.Price_LevelMultiplierExponent);
                 }
             }
             else

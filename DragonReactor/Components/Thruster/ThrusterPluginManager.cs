@@ -55,8 +55,8 @@ namespace ContentMod.Components.Thruster
         /// <summary>
         /// Finds Thruster type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Thruster.
         /// </summary>
-        /// <param name="ThrusterName"></param>
-        /// <returns></returns>
+        /// <param name="ThrusterName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetThrusterIDFromName(string ThrusterName)
         {
             for (int i = 0; i < ThrusterTypes.Count; i++)
@@ -99,6 +99,7 @@ namespace ContentMod.Components.Thruster
                     InThruster.Unstable = ThrusterType.Unstable;
                     InThruster.Contraband = ThrusterType.Contraband;
                     InThruster.GetType().GetMethod("UpdateMaxPowerWatts", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(InThruster, new object[0]);
+                    InThruster.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InThruster, (ObscuredFloat)ThrusterType.Price_LevelMultiplierExponent);
                 }
             }
             else
@@ -118,16 +119,4 @@ namespace ContentMod.Components.Thruster
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLThruster), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLThruster __instance)
-        {
-            int subtypeformodded = __instance.SubType - ThrusterPluginManager.Instance.VanillaThrusterMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < ThrusterPluginManager.Instance.ThrusterTypes.Count && __instance.ShipStats != null && __instance.ShipStats.ThrusterTempMax != 0f)
-            {
-                ThrusterPluginManager.Instance.ThrusterTypes[subtypeformodded].ThrusterPowerCode(__instance);
-            }
-        }
-    }*/
 }

@@ -55,8 +55,8 @@ namespace ContentMod.Components.WarpDrive
         /// <summary>
         /// Finds WarpDrive type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find WarpDrive.
         /// </summary>
-        /// <param name="WarpDriveName"></param>
-        /// <returns></returns>
+        /// <param name="WarpDriveName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetWarpDriveIDFromName(string WarpDriveName)
         {
             for (int i = 0; i < WarpDriveTypes.Count; i++)
@@ -100,6 +100,7 @@ namespace ContentMod.Components.WarpDrive
                     InWarpDrive.Experimental = WarpDriveType.Experimental;
                     InWarpDrive.Unstable = WarpDriveType.Unstable;
                     InWarpDrive.Contraband = WarpDriveType.Contraband;
+                    InWarpDrive.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InWarpDrive, (ObscuredFloat)WarpDriveType.Price_LevelMultiplierExponent);
                 }
             }
             else
@@ -119,16 +120,4 @@ namespace ContentMod.Components.WarpDrive
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLWarpDrive), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLWarpDrive __instance)
-        {
-            int subtypeformodded = __instance.SubType - WarpDrivePluginManager.Instance.VanillaWarpDriveMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < WarpDrivePluginManager.Instance.WarpDriveTypes.Count && __instance.ShipStats != null && __instance.ShipStats.WarpDriveTempMax != 0f)
-            {
-                WarpDrivePluginManager.Instance.WarpDriveTypes[subtypeformodded].WarpDrivePowerCode(__instance);
-            }
-        }
-    }*/
 }

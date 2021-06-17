@@ -55,8 +55,8 @@ namespace ContentMod.Components.CaptainsChair
         /// <summary>
         /// Finds CaptainsChair type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find CaptainsChair.
         /// </summary>
-        /// <param name="CaptainsChairName"></param>
-        /// <returns></returns>
+        /// <param name="CaptainsChairName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetCaptainsChairIDFromName(string CaptainsChairName)
         {
             for (int i = 0; i < CaptainsChairTypes.Count; i++)
@@ -96,6 +96,7 @@ namespace ContentMod.Components.CaptainsChair
                     InCaptainsChair.Experimental = CaptainsChairType.Experimental;
                     InCaptainsChair.Unstable = CaptainsChairType.Unstable;
                     InCaptainsChair.Contraband = CaptainsChairType.Contraband;
+                    InCaptainsChair.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InCaptainsChair, (ObscuredFloat)CaptainsChairType.Price_LevelMultiplierExponent);
                 }
             }
             else

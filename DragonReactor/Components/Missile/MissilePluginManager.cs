@@ -55,8 +55,8 @@ namespace ContentMod.Components.Missile
         /// <summary>
         /// Finds Missile type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find Missile.
         /// </summary>
-        /// <param name="MissileName"></param>
-        /// <returns></returns>
+        /// <param name="MissileName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetMissileIDFromName(string MissileName)
         {
             for (int i = 0; i < MissileTypes.Count; i++)
@@ -102,6 +102,7 @@ namespace ContentMod.Components.Missile
                     InMissile.Experimental = MissileType.Experimental;
                     InMissile.Unstable = MissileType.Unstable;
                     InMissile.Contraband = MissileType.Contraband;
+                    InMissile.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InMissile, (ObscuredFloat)MissileType.Price_LevelMultiplierExponent);
                     if (PhotonNetwork.isMasterClient)
                     {
                         InMissile.SubTypeData = (short)InMissile.AmmoCapacity;

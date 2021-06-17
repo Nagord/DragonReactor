@@ -36,7 +36,7 @@ namespace ContentMod.Components
         {
             get { return false; }
         }
-        public virtual float Price_LevelMultiplierExponent//not implimented
+        public virtual float Price_LevelMultiplierExponent
         {
             get { return 1.4f; }
         }
@@ -44,10 +44,10 @@ namespace ContentMod.Components
         {
             get { return (Texture2D)Resources.Load("defaultShipCompIcon"); }
         }
-        public virtual float SalvagePercentMultiplier//not implimented
+        /*public virtual float SalvagePercentMultiplier//not implimented
         {
             get { return 1f; }
-        }
+        }*/
         public virtual string GetStatLineRight(PLShipComponent InComp)
         {
             return "";

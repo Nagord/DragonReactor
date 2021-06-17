@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ContentMod.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -66,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\ComponentPluginBase.cs" />
+    <Compile Include="Components\PolytechModule\PolytechModulePlugin.cs" />
+    <Compile Include="Components\PolytechModule\ReactorPluginManager.cs" />
     <Compile Include="Components\Virus\VirusPlugin.cs" />
     <Compile Include="Components\Virus\VirusPluginManager.cs" />
     <Compile Include="Components\WarpDriveProgram\WarpDriveProgramPlugin.cs" />
@@ -114,7 +117,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET PLUGIN_DIR="D:\Program Files (x86)\Steam\steamapps\common\PULSARLostColony\PULSAR_LostColony_Data\Managed\Plugins\"
+    <PostBuildEvent>SET PLUGIN_DIR="D:\Program Files (x86)\Steam\steamapps\common\PULSARLostColony\PULSAR_LostColony_Data\Managed\Mods\"
 
 IF EXIST %25PLUGIN_DIR%25 (
     ECHO Copying DLLs to Plugins directory...

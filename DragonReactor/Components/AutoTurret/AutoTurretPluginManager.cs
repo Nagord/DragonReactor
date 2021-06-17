@@ -54,8 +54,8 @@ namespace ContentMod.Components.AutoTurret
         /// <summary>
         /// Finds AutoTurret type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find AutoTurret.
         /// </summary>
-        /// <param name="AutoTurretName"></param>
-        /// <returns></returns>
+        /// <param name="AutoTurretName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetAutoTurretIDFromName(string AutoTurretName)
         {
             for (int i = 0; i < AutoTurretTypes.Count; i++)
@@ -67,25 +67,6 @@ namespace ContentMod.Components.AutoTurret
             }
             return -1;
         }
-        /*public static PLShipComponent CreateAutoTurret(int Subtype, int level)
-        {
-            PLShipComponent InAutoTurret;
-            if (Subtype >= Instance.VanillaAutoTurretMaxType)
-            {
-                InAutoTurret = new PLAutoTurret(level);
-                int subtypeformodded = Subtype - Instance.VanillaAutoTurretMaxType;
-                Logger.Info($"Subtype for modded is {subtypeformodded}");
-                if (subtypeformodded <= Instance.AutoTurretTypes.Count && subtypeformodded > -1)
-                {
-                    Logger.Info("Creating AutoTurret from list info");
-                }
-            }
-            else
-            {
-                InAutoTurret = new PLAutoTurret(level);
-            }
-            return InAutoTurret;
-        }*/
     }
     //Converts hashes to AutoTurrets.
     [HarmonyPatch(typeof(PLAutoTurret), "CreateAutoTurretFromHash")]
@@ -104,16 +85,4 @@ namespace ContentMod.Components.AutoTurret
             return true;
         }
     }
-    /*[HarmonyPatch(typeof(PLAutoTurret), "LateAddStats")]
-    class AutoTurretLateAddStatsPatch
-    {
-        static void Postfix(PLShipStats inStats, PLAutoTurret __instance)
-        {
-            int subtypeformodded = __instance.SubType - AutoTurretPluginManager.Instance.VanillaAutoTurretMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < AutoTurretPluginManager.Instance.AutoTurretTypes.Count && inStats != null)
-            {
-                AutoTurretPluginManager.Instance.AutoTurretTypes[subtypeformodded].LateAddStats(inStats);
-            }
-        }
-    }*/
 }

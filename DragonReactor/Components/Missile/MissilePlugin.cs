@@ -7,10 +7,6 @@ namespace ContentMod.Components.Missile
         public MissilePlugin()
         {
         }
-        public override Texture2D IconTexture
-        {
-            get { return (Texture2D)Resources.Load("Icons/62_Processer"); }
-        }
         public virtual float Damage
         {
             get { return 360f; }

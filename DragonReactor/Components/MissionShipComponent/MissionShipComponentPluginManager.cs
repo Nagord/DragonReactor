@@ -55,8 +55,8 @@ namespace ContentMod.Components.MissionShipComponent
         /// <summary>
         /// Finds MissionShipComponent type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find MissionShipComponent.
         /// </summary>
-        /// <param name="MissionShipComponentName"></param>
-        /// <returns></returns>
+        /// <param name="MissionShipComponentName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetMissionShipComponentIDFromName(string MissionShipComponentName)
         {
             for (int i = 0; i < MissionShipComponentTypes.Count; i++)
@@ -96,6 +96,7 @@ namespace ContentMod.Components.MissionShipComponent
                     InMissionShipComponent.Experimental = MissionShipComponentType.Experimental;
                     InMissionShipComponent.Unstable = MissionShipComponentType.Unstable;
                     InMissionShipComponent.Contraband = MissionShipComponentType.Contraband;
+                    InMissionShipComponent.GetType().GetField("Price_LevelMultiplierExponent", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(InMissionShipComponent, (ObscuredFloat)MissionShipComponentType.Price_LevelMultiplierExponent);
                 }
             }
             else
@@ -115,16 +116,4 @@ namespace ContentMod.Components.MissionShipComponent
             return false;
         }
     }
-    /*[HarmonyPatch(typeof(PLMissionShipComponent), "Tick")]
-    class TickPatch
-    {
-        static void Postfix(PLMissionShipComponent __instance)
-        {
-            int subtypeformodded = __instance.SubType - MissionShipComponentPluginManager.Instance.VanillaMissionShipComponentMaxType;
-            if (subtypeformodded > -1 && subtypeformodded < MissionShipComponentPluginManager.Instance.MissionShipComponentTypes.Count && __instance.ShipStats != null && __instance.ShipStats.MissionShipComponentTempMax != 0f)
-            {
-                MissionShipComponentPluginManager.Instance.MissionShipComponentTypes[subtypeformodded].MissionShipComponentPowerCode(__instance);
-            }
-        }
-    }*/
 }

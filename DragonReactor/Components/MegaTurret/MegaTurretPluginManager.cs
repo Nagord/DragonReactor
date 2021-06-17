@@ -54,8 +54,8 @@ namespace ContentMod.Components.MegaTurret
         /// <summary>
         /// Finds MegaTurret type equivilent to given name and returns Subtype ID needed to spawn. Returns -1 if couldn't find MegaTurret.
         /// </summary>
-        /// <param name="MegaTurretName"></param>
-        /// <returns></returns>
+        /// <param name="MegaTurretName">Name of Component</param>
+        /// <returns>Subtype ID of component</returns>
         public int GetMegaTurretIDFromName(string MegaTurretName)
         {
             for (int i = 0; i < MegaTurretTypes.Count; i++)
